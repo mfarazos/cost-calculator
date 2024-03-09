@@ -5,7 +5,7 @@ export default function CostTypeInputFieldset() {
         <fieldset className='row my-3 p-2 px-lg-3 border border-1 rounded'>
             <div className="col-2 mb-5 px-0">
                 <p className='w-100 text-start mb-1'>Cost Type</p>
-                <select class="form-select mb-3" aria-label="Select Vehicle">
+                <select className="form-select mb-3" aria-label="Select Vehicle">
                     <option disabled selected value className='d-none'></option>
                     <option value="EuroTunnel">EuroTunnel</option>
                     <option value="Toll">Toll</option>

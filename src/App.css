@@ -1,8 +1,13 @@
 input[type=checkbox]
 {
+  cursor: pointer;
   /* Double-sized Checkboxes */
-  -ms-transform: scale(1.25); /* IE */
-  -moz-transform: scale(1.25); /* FF */
-  -webkit-transform: scale(1.25); /* Safari and Chrome */
-  -o-transform: scale(1.25); /* Opera */
+  -ms-transform: scale(1.35); /* IE */
+  -moz-transform: scale(1.35); /* FF */
+  -webkit-transform: scale(1.35); /* Safari and Chrome */
+  -o-transform: scale(1.35); /* Opera */
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
 }
