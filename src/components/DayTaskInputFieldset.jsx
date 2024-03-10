@@ -9,7 +9,10 @@ const [newField, setNewField] = useState({ date: "", task: "", drivers: [{ drive
   const handleAddField = () => {
     props.setData((prevData) => {
         return { ...prevData, days: [...prevData.days, newField] };
-      });    setNewField({ date: "", task: "", drivers: [{ driver_name: "", miles: "", days: "", fuelcost: "", cost: "" }], resources: [{ resource_name: "", days: "",overnight: false, hours: "", cost: "" }], material: [{ material: "", hours: "", cost: "" }] });
+      });    setNewField({ date: "", task: "", totalVehicleCost: 0,
+      totalResource: 0,
+      totalResourceCost: 0,
+      totalMaterialCost: 0, drivers: [{ driver_name: "", miles: "", days: "", fuelcost: "", cost: "" }], resources: [{ resource_name: "", days: "",overnight: false, hours: "", cost: "" }], material: [{ material: "", hours: "", cost: "" }] });
   };
 
   const handleDateChange = (e, index) => {

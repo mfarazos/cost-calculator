@@ -24,9 +24,21 @@ const calculateCostSum = (day) => {
   return day.drivers.reduce((sum, driver) => sum + driver.cost, 0);
 };
 
+const calculatefuelCostSum = (day) => {
+  return day.drivers.reduce((sum, driver) => sum + driver.fuelcost, 0);
+};
+
+const calculatetotalvehicle = (day) => {
+  return day.drivers.reduce((sum, drive) => sum + drive.days, 0);
+};
+
 // Function to calculate the sum of material costs for all days
 const calculateTotalCost = (days) => {
   return days.reduce((totalSum, day) => totalSum + calculateCostSum(day), 0);
+};
+
+const calculateTotalfuelCost = (days) => {
+  return days.reduce((totalSum, day) => totalSum + calculatefuelCostSum(day), 0);
 };
 
   const handleVehicleChange = (e, index) => {
@@ -35,27 +47,43 @@ const calculateTotalCost = (days) => {
     newData[props.currentDataIndex].drivers[index].driver_name = e.target.options[e.target.selectedIndex].text;
     newData[props.currentDataIndex].drivers[index].driver_value = e.target.value
     newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
-    let totalMaterialCost = calculateTotalCost(newData);
-    overallcost.VehicleTotalCost = totalMaterialCost;
+    let totalVehicleCost = calculateTotalCost(newData);
+    newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
+    overallcost.VehicleTotalCost = totalVehicleCost;
+    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation: overallcost });
-    
   };
 
   const handleMilesChange = (e, index) => {
     let val = 0.9;
     const newData = [...props.data.days];
+    let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].drivers[index].miles = e.target.valueAsNumber;
     newData[props.currentDataIndex].drivers[index].fuelcost = +(e.target.valueAsNumber) * val;
-    props.setData({ ...props.data, days: newData });
+    overallcost.totalFualCost = calculateTotalfuelCost(newData)
+    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
+    props.setData({ ...props.data, days: newData, costCalculation: overallcost });
   };
 
   const handledaysChange = (e, index) => {
-    let cost = 150;
     let val =  e.target.valueAsNumber
+    let overallcost = {...props.data.costCalculation}
     const newData = [...props.data.days];
     newData[props.currentDataIndex].drivers[index].days = e.target.valueAsNumber;
-    newData[props.currentDataIndex].drivers[index].cost = +val * cost;
-    props.setData({ ...props.data, days: newData });
+    newData[props.currentDataIndex].drivers[index].cost = +(newData[props.currentDataIndex].drivers[index].driver_value) * e.target.valueAsNumber;
+    let totalMaterialCost = calculateTotalCost(newData);
+    overallcost.VehicleTotalCost = totalMaterialCost;
+    let totalquantity = calculatetotalvehicle(newData[props.currentDataIndex])
+    newData[props.currentDataIndex].totalVehicle = totalquantity;
+    newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
+    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
+    props.setData({ ...props.data, days: newData, costCalculation : overallcost  });
   };
 
 
@@ -92,11 +120,11 @@ const calculateTotalCost = (days) => {
       <div className="col-3 px-0"></div>
       <div className="col-2 ps-2 pe-0"></div>
       <div className="col-2 ps-2 pe-0">
-        <input type="text" readOnly className="form-control mb-3" />
+        <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex].totalVehicle} />
       </div>
       <div className="col-2 ps-2 pe-0"></div>
       <div className="col-3 ps-2 pe-0">
-        <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" />
+        <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex].totalVehicleCost} />
       </div>
       <div className="col-12 p-0">
         <button className="btn btn-primary" onClick={handleAddField}>Add Vehicle</button>

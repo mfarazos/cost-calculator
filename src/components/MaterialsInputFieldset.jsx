@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 export default function MaterialsInputFieldset(props) {
   const [newField, setNewField] = useState({ material: "", materialValue: "", hours: "", cost: "" });
   const MaterialData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].material) ? props?.data.days[props.currentDataIndex].material : [];
-
   const handleAddField = () => {
     props.setData((prevData) => {
       const updatedDays = prevData.days.map((day, index) => {
@@ -21,7 +20,7 @@ export default function MaterialsInputFieldset(props) {
 
     // Function to calculate the sum of material costs for a given day
 const calculateCostSum = (day) => {
-  return day.drivers.reduce((sum, driver) => sum + driver.cost, 0);
+  return day.material.reduce((sum, material) => sum + material.cost, 0);
 };
 
 // Function to calculate the sum of material costs for all days
@@ -35,14 +34,25 @@ const calculateTotalCost = (days) => {
     newData[props.currentDataIndex].material[index].material = e.target.options[e.target.selectedIndex].text;
     newData[props.currentDataIndex].material[index].materialValue = e.target.value;
     newData[props.currentDataIndex].material[index].cost = +(e.target.value) * newData[props.currentDataIndex].material[index].hours 
-    props.setData({ ...props.data, days: newData });
+    newData[props.currentDataIndex].totalMaterialCost = calculateCostSum(newData[props.currentDataIndex])
+    overallcost.materialTotalCost = overallcost.materialTotalCost = calculateTotalCost(newData);
+    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
+    props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 
   const handleHoursChange = (e, index) => {
     const newData = [...props.data.days];
+    let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].material[index].hours = e.target.valueAsNumber;
-    newData[props.currentDataIndex].material[index].cost = e.target.valueAsNumber * +(newData[props.currentDataIndex].material[index].material) || 0;
-    props.setData({ ...props.data, days: newData });
+    newData[props.currentDataIndex].material[index].cost = e.target.valueAsNumber * +(newData[props.currentDataIndex].material[index].materialValue) || 0;
+    newData[props.currentDataIndex].totalMaterialCost = calculateCostSum(newData[props.currentDataIndex])
+    overallcost.materialTotalCost = calculateTotalCost(newData);
+    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
+    props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 
   return (
@@ -51,7 +61,7 @@ const calculateTotalCost = (days) => {
         <div className="col-4 mb-5 px-0">
           <p className='w-100 text-start mb-1'>Materials</p>
           {MaterialData.map((item, index) => (
-          <select className="form-select mb-3" key={index} value={item?.materialValue} onChange={(e) => {handleMaterialChange(e, index)}} aria-label="Select Material">
+          <select className="form-select mb-3" key={index} value={item.materialValue} onChange={(e) => {handleMaterialChange(e, index)}} aria-label="Select Material">
             <option disabled value="" className='d-none'></option>
             <option value="1.5">Pk 1 Carton </option>
             <option value="1.51">PK 2 Carton</option>
@@ -86,7 +96,7 @@ const calculateTotalCost = (days) => {
         </div>
         <div className="col-3 ps-2 pe-0"></div>
         <div className="col-3 ps-2 pe-0">
-          <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" />
+          <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex].totalMaterialCost} />
         </div>
         <div className="col-12 p-0">
           <button className="btn btn-primary" onClick={handleAddField}>Add Material</button>

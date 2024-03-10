@@ -1,7 +1,18 @@
 import React from 'react'
+import axios from 'axios';
 
 export default function CostCalculationFieldset(props) {
  
+async function submitForm(){
+  try {
+    const response = await axios.post('http://localhost:3002/api/insertFormData', { DealId: "345gfgt", formData: props.data });
+    if(response.data){
+     alert("Sucessfuly submit your form");
+    }
+ } catch (error) {
+    console.log(error);
+ }
+}  
   return (
     <fieldset className='row p-2 border border-1 rounded'>
       <div className="col-12">
@@ -64,7 +75,7 @@ export default function CostCalculationFieldset(props) {
         </div>
         <div className="actions my-4 d-flex justify-content-between">
           <button type="button" className="btn btn-primary fs-4 fw-bolder">Σ</button>
-          <button type="button" className="btn btn-secondary px-5 fw-bold">Accept</button>
+          <button type="button" onClick={submitForm()} className="btn btn-secondary px-5 fw-bold">Accept</button>
         </div>
         <div className="form-check mb-2">
           <input className="form-check-input" type="checkbox" value="" id="show-resource-detail" />

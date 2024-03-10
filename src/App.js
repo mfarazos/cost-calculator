@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';
 import {DayTaskInputFieldset, VehicleInputFieldset, HumanResourcesInputFieldset, MaterialsInputFieldset, CostCalculationFieldset, CostTypeInputFieldset} from "./components";
 
 const App = () => {
@@ -9,182 +10,87 @@ const App = () => {
     "deal_id":1,
     "days":[
        {
-          "date":"Monday",
-          "task":"any thing",
+          "date":"",
+          "task":"",
+          "totalVehicle": 0,
+          "totalVehicleCost": 0,
+          "totalResource": 0,
+          "totalResourceCost": 0,
+          "totalMaterialCost": 0,
           "drivers":[
              {
-                "driver_name":"7.5ton",
-                "miles":5,
-                "days":2,
-                "fuelcost":78,
-                "cost":55
-             },
-             {
-                "driver_name":"3.5ton",
-                "miles":"",
-                "days":2,
-                "fuelcost":78,
-                "cost":55
+                "driver_name":"",
+                "driver_value": "",
+                "miles":0,
+                "days":0,
+                "fuelcost":0,
+                "cost":0
              }
           ],
           "resources":[
              {
-                "resource_name":"Porter",
-                "days":2,
+                "resource_name":"",
+                "resource_Value": "",
+                "days":0,
                 "overnight": true,
-                "hours":8,
-                "cost":55
-             },
-             {
-                "resource_name":"HGV_Driver",
-                "days":2,
-                "overnight": false,
-                "hours":8,
-                "cost":55
+                "hours":0,
+                "cost":0
              }
           ],
           "material":[
              {
-                "material":"hgv",
-                "hours":8,
-                "cost":55
-             },
-             {
-                "material":"hgv",
-                "hours":8,
-                "cost":55
-             }
-          ]
-       },
-       {
-          "date":"Tuesday",
-          "task":"any thing",
-          "drivers":[
-             {
-                "driver_name":"7.5ton",
-                "miles":"",
-                "days":2,
-                "fuelcost":78,
-                "cost":55
-             },
-             {
-                "driver_name":"3.5ton",
-                "miles":"",
-                "days":2,
-                "fuelcost":78,
-                "cost":55
-             }
-          ],
-          "resources":[
-             {
-                "resource_name":"HGV_Driver",
-                "days":2,
-                "overnight": true,
-                "hours":8,
-                "cost":55
-             },
-             {
-                "resource_name":"Porter",
-                "days":2,
-                "overnight": false,
-                "hours":8,
-                "cost":55
-             }
-          ],
-          "material":[
-             {
-                "material":"hgv",
-                "hours":8,
-                "cost":55
-             },
-             {
-                "material":"hgv",
-                "hours":8,
-                "cost":55
-             }
-          ]
-       },
-       {
-          "date":"Wednesday",
-          "task":"any thing",
-          "drivers":[
-             {
-                "driver_name":"7.5ton",
-                "miles":"",
-                "days":2,
-                "fuelcost":78,
-                "cost":55
-             },
-             {
-                "driver_name":"3.5ton",
-                "miles":"",
-                "days":2,
-                "fuelcost":78,
-                "cost":55
-             }
-          ],
-          "resources":[
-             {
-                "resource_name":"3.5T_driver",
-                "days":2,
-                "overnight": false,
-                "hours":8,
-                "cost":55
-             },
-             {
-                "resource_name":"7.5T_Driver",
-                "days":2,
-                "overnight": false,
-                "hours":8,
-                "cost":55
-             }
-          ],
-          "material":[
-             {
-                "material":"hgv",
-                "hours":8,
-                "cost":55
-             },
-             {
-                "material":"hgv",
-                "hours":8,
-                "cost":55
+                "material":"",
+                "materialValue": "",
+                "hours":0,
+                "cost":0
              }
           ]
        }
     ],
 
     "costCalculation": {
-      "VehicleTotalCost":5,
-      "HumanTotalCost":5,
-      "materialTotalCost":5,
-      "TotalCost":5,
-      "totalFualCost":5,
-      "Fixed": 1,
+      "VehicleTotalCost":0,
+      "HumanTotalCost":0,
+      "materialTotalCost":0,
+      "TotalCost":0,
+      "totalFualCost":0,
+      "Fixed": 0,
       "markep":20,
-      "other":1,
-      "Quatation":2
+      "other":0,
+      "Quatation":0
 
     }
  });
-
  const [currentDataIndex, setCurrentDataIndex] = useState(0)
 
  useEffect(()=>{
-console.log("data", data)
- }, [data])
-  return (
+   (async () => {
+      try {
+         const response = await axios.post('http://localhost:3002/api/GetFormData', { DealId: "345gfgt"});
+         console.log(response.data.success);
+         if(response.data.success){
+            setData(response.data.data);
+         }
+      } catch (error) {
+         console.log(error);
+      }
+      
+    })();
+
+   }, [])
+
+ return (
     <div className="container my-4">
       <div className="row">
         <div className="col-lg-4 col-12">
           <DayTaskInputFieldset data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
         </div>
         <div className="col-lg-5 col-12">
-        <VehicleInputFieldset data={data} currentDataIndex={currentDataIndex} setData={setData} />
+        <VehicleInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
 
-        <HumanResourcesInputFieldset data={data} currentDataIndex={currentDataIndex} setData={setData} />
+        <HumanResourcesInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
 
-        <MaterialsInputFieldset data={data} currentDataIndex={currentDataIndex} setData={setData} />
+        <MaterialsInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
         </div>
         <div className="col-lg-3 col-12">
         <CostCalculationFieldset data={data} />
