@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export default function HumanResourcesInputFieldset(props) {
-  const [newField, setNewField] = useState({ resource_name: "", days: "",overnight: false, hours: "", cost: "" });
+  const [newField, setNewField] = useState({ resource_name: "", resource_Value: "", days: "",overnight: false, hours: "", cost: "" });
   const humanResourcesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].resources) ? props?.data.days[props.currentDataIndex].resources : [];
 
   const handleAddField = () => {
@@ -16,18 +16,33 @@ export default function HumanResourcesInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ resource_name: "", days: "",overnight: false, hours: "", cost: "" });
+    setNewField({ resource_name: "", resource_Value: "", days: "",overnight: false, hours: "", cost: "" });
   };
+
+    // Function to calculate the sum of material costs for a given day
+const calculateCostSum = (day) => {
+  return day.drivers.reduce((sum, driver) => sum + driver.cost, 0);
+};
+
+// Function to calculate the sum of material costs for all days
+const calculateTotalCost = (days) => {
+  return days.reduce((totalSum, day) => totalSum + calculateCostSum(day), 0);
+};
 
   const handleresourceChange = (e, index) => {
     const newData = [...props.data.days];
-    newData[props.currentDataIndex].resources[index].resource_name = e.target.value;
+    let overallcost = {...props.data.costCalculation}
+    newData[props.currentDataIndex].resources[index].resource_Value = e.target.value;
+    newData[props.currentDataIndex].resources[index].resource_name = e.target.options[e.target.selectedIndex].text;
+    newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].days);
     props.setData({ ...props.data, days: newData });
+
   };
 
   const handleDaysChange = (e, index) => {
     const newData = [...props.data.days];
     newData[props.currentDataIndex].resources[index].days = e.target.valueAsNumber;
+    newData[props.currentDataIndex].resources[index].cost = e.target.valueAsNumber * +(newData[props.currentDataIndex].resources[index].days);
     props.setData({ ...props.data, days: newData });
   };
 
@@ -47,16 +62,16 @@ export default function HumanResourcesInputFieldset(props) {
     <fieldset className='row mx-lg-1 mb-3 p-2 border border-1 rounded'>
       <div className="col-4 mb-5 px-0">
         <p className='w-100 text-start mb-1'>Human resources</p>
-        {humanResourcesData.map((item, index) => (<select className="form-select mb-3" key={index} value={item?.resource_name} onChange={(e) => handleresourceChange(e, index)} aria-label="Select Vehicle">
+        {humanResourcesData.map((item, index) => (<select className="form-select mb-3" key={index} value={item?.resource_Value} onChange={(e) => handleresourceChange(e, index)} aria-label="Select Vehicle">
           <option disabled value="" className='d-none'></option>
-          <option value="3.5T_driver">3.5T Driver</option>
-          <option value="7.5T_Driver">7.5T Driver</option>
-          <option value="HGV_Driver">HGV driver</option>
-          <option value="Porter">Porter</option>
+          <option value="120">3.5T Driver</option>
+          <option value="150">7.5T Driver</option>
+          <option value="151">HGV driver</option>
+          <option value="100">Porter</option>
         </select>))}
       </div>
       <div className="col-2 mb-5 ps-2 pe-0">
-        <p className='w-100 text-start mb-1'>No.</p>
+        <p className='w-100 text-start mb-1'>No. of days.</p>
         {humanResourcesData.map((item, index) => (<input type="number" key={index} onChange={(e) => handleDaysChange(e, index)} value={item?.days} className="form-control mb-3" />))}
       </div>
       <div className="col-1 mb-5 ps-2 pe-0">

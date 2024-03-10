@@ -152,7 +152,20 @@ const App = () => {
              }
           ]
        }
-    ]
+    ],
+
+    "costCalculation": {
+      "VehicleTotalCost":5,
+      "HumanTotalCost":5,
+      "materialTotalCost":5,
+      "TotalCost":5,
+      "totalFualCost":5,
+      "Fixed": 1,
+      "markep":20,
+      "other":1,
+      "Quatation":2
+
+    }
  });
 
  const [currentDataIndex, setCurrentDataIndex] = useState(0)
@@ -174,7 +187,7 @@ console.log("data", data)
         <MaterialsInputFieldset data={data} currentDataIndex={currentDataIndex} setData={setData} />
         </div>
         <div className="col-lg-3 col-12">
-        <CostCalculationFieldset />
+        <CostCalculationFieldset data={data} />
         </div>
         <div className="col-12">
         <CostTypeInputFieldset />

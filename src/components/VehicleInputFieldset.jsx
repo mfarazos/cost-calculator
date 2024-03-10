@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export default function VehicleInputFieldset(props) {
-  const [newField, setNewField] = useState({ driver_name: "", miles: "", days: "", fuelcost: "", cost: "" });
+  const [newField, setNewField] = useState({ driver_name: "", driver_value: "", miles: "", days: "", fuelcost: "", cost: "" });
   const vehiclesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].drivers) ? props?.data.days[props.currentDataIndex].drivers : [];
 
   const handleAddField = () => {
@@ -16,24 +16,45 @@ export default function VehicleInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ driver_name: "", miles: "", days: "", fuelcost: "", cost: "" });
+    setNewField({ driver_name: "", driver_value: "", miles: "", days: "", fuelcost: "", cost: "" });
   };
+
+  // Function to calculate the sum of material costs for a given day
+const calculateCostSum = (day) => {
+  return day.drivers.reduce((sum, driver) => sum + driver.cost, 0);
+};
+
+// Function to calculate the sum of material costs for all days
+const calculateTotalCost = (days) => {
+  return days.reduce((totalSum, day) => totalSum + calculateCostSum(day), 0);
+};
 
   const handleVehicleChange = (e, index) => {
     const newData = [...props.data.days];
-    newData[props.currentDataIndex].drivers[index].driver_name = e.target.value;
-    props.setData({ ...props.data, days: newData });
+    let overallcost = {...props.data.costCalculation}
+    newData[props.currentDataIndex].drivers[index].driver_name = e.target.options[e.target.selectedIndex].text;
+    newData[props.currentDataIndex].drivers[index].driver_value = e.target.value
+    newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
+    let totalMaterialCost = calculateTotalCost(newData);
+    overallcost.VehicleTotalCost = totalMaterialCost;
+    props.setData({ ...props.data, days: newData, costCalculation: overallcost });
+    
   };
 
   const handleMilesChange = (e, index) => {
+    let val = 0.9;
     const newData = [...props.data.days];
     newData[props.currentDataIndex].drivers[index].miles = e.target.valueAsNumber;
+    newData[props.currentDataIndex].drivers[index].fuelcost = +(e.target.valueAsNumber) * val;
     props.setData({ ...props.data, days: newData });
   };
 
   const handledaysChange = (e, index) => {
+    let cost = 150;
+    let val =  e.target.valueAsNumber
     const newData = [...props.data.days];
     newData[props.currentDataIndex].drivers[index].days = e.target.valueAsNumber;
+    newData[props.currentDataIndex].drivers[index].cost = +val * cost;
     props.setData({ ...props.data, days: newData });
   };
 
@@ -44,11 +65,11 @@ export default function VehicleInputFieldset(props) {
       <div className="col-3 mb-5 px-0">
         <p className='w-100 text-start mb-1'>Vehicles</p>
         {vehiclesData.map((item, index) => (
-        <select className="form-select mb-3" key={index} value={item?.driver_name} aria-label="Select Vehicle" onChange={(e) => handleVehicleChange(e, index)}>
+        <select className="form-select mb-3" key={index} value={item?.driver_value} aria-label="Select Vehicle" onChange={(e) => handleVehicleChange(e, index)}>
           <option disabled selected value="" className='d-none'></option>
-          <option value="3.5ton">3.5T</option>
-          <option value="7.5ton">7.5T</option>
-          <option value="HGV">HGV</option>
+          <option value="100">3.5T</option>
+          <option value="150">7.5T</option>
+          <option value="200">HGV</option>
         </select>
         ))} 
       </div>

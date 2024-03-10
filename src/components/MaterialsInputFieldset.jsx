@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function MaterialsInputFieldset(props) {
-  const [newField, setNewField] = useState({ material: "", hours: "", cost: "" });
+  const [newField, setNewField] = useState({ material: "", materialValue: "", hours: "", cost: "" });
   const MaterialData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].material) ? props?.data.days[props.currentDataIndex].material : [];
 
   const handleAddField = () => {
@@ -16,18 +16,32 @@ export default function MaterialsInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ material: "", hours: "", cost: "" });
+    setNewField({ material: "", materialValue: "", hours: "", cost: "" });
   };
+
+    // Function to calculate the sum of material costs for a given day
+const calculateCostSum = (day) => {
+  return day.drivers.reduce((sum, driver) => sum + driver.cost, 0);
+};
+
+// Function to calculate the sum of material costs for all days
+const calculateTotalCost = (days) => {
+  return days.reduce((totalSum, day) => totalSum + calculateCostSum(day), 0);
+};
 
   const handleMaterialChange = (e, index) => {
     const newData = [...props.data.days];
-    newData[props.currentDataIndex].material[index].material = e.target.value;
+    let overallcost = {...props.data.costCalculation}
+    newData[props.currentDataIndex].material[index].material = e.target.options[e.target.selectedIndex].text;
+    newData[props.currentDataIndex].material[index].materialValue = e.target.value;
+    newData[props.currentDataIndex].material[index].cost = +(e.target.value) * newData[props.currentDataIndex].material[index].hours 
     props.setData({ ...props.data, days: newData });
   };
 
   const handleHoursChange = (e, index) => {
     const newData = [...props.data.days];
     newData[props.currentDataIndex].material[index].hours = e.target.valueAsNumber;
+    newData[props.currentDataIndex].material[index].cost = e.target.valueAsNumber * +(newData[props.currentDataIndex].material[index].material) || 0;
     props.setData({ ...props.data, days: newData });
   };
 
@@ -37,18 +51,18 @@ export default function MaterialsInputFieldset(props) {
         <div className="col-4 mb-5 px-0">
           <p className='w-100 text-start mb-1'>Materials</p>
           {MaterialData.map((item, index) => (
-          <select className="form-select mb-3" key={index} value={item?.material} onChange={(e) => {handleMaterialChange(e, index)}} aria-label="Select Material">
+          <select className="form-select mb-3" key={index} value={item?.materialValue} onChange={(e) => {handleMaterialChange(e, index)}} aria-label="Select Material">
             <option disabled value="" className='d-none'></option>
-            <option value="Pk1_Carton">Pk 1 Carton </option>
-            <option value="PK2_Carton">PK 2 Carton</option>
-            <option value="Wardrobe_Carton">Wardrobe Carton</option>
-            <option value="Ream_of_Paper">Ream of Paper</option>
-            <option value="Bubble_Blanket_Roll">Bubble Blanket Roll</option>
-            <option value="TV_Wrap">TV Wrap</option>
-            <option value="Picture_Wrap">Picture Wrap</option>
-            <option value="Tape">Tape</option>
-            <option value="Single_Mattress_Cover">Single Mattress Cover</option>
-            <option value="Double_Mattress_Cover">Double Mattress Cover</option>
+            <option value="1.5">Pk 1 Carton </option>
+            <option value="1.51">PK 2 Carton</option>
+            <option value="6.5">Wardrobe Carton</option>
+            <option value="12">Ream of Paper</option>
+            <option value="80">Bubble Blanket Roll</option>
+            <option value="7.5">TV Wrap</option>
+            <option value="4">Picture Wrap</option>
+            <option value="0.6">Tape</option>
+            <option value="3.5">Single Mattress Cover</option>
+            <option value="2.5">Double Mattress Cover</option>
           </select>
           ))}
         </div>
@@ -56,7 +70,7 @@ export default function MaterialsInputFieldset(props) {
         </div>
 
         <div className="col-3 mb-5 ps-2 pe-0">
-          <p className='w-100 text-start mb-1'>Hours</p>
+          <p className='w-100 text-start mb-1'>QTY</p>
           {MaterialData.map((item, index) => (
             <input type="number" className="form-control mb-3 bg-warning bg-opacity-10" value={item?.hours} onChange={(e) => {handleHoursChange(e, index)}} key={index} />
           ))}
