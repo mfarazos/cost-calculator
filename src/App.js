@@ -66,7 +66,7 @@ const App = () => {
  useEffect(()=>{
    (async () => {
       try {
-         const response = await axios.post('http://localhost:3002/api/GetFormData', { DealId: "345gfgt"});
+         const response = await axios.post('https://movinghomecompany.com/costingapp/GetFormData', { DealId: "345gfgt"});
          console.log(response.data.success);
          if(response.data.success){
             setData(response.data.data);

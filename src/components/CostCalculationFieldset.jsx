@@ -5,7 +5,7 @@ export default function CostCalculationFieldset(props) {
  
 async function submitForm(){
   try {
-    const response = await axios.post('http://localhost:3002/api/insertFormData', { DealId: "345gfgt", formData: props.data });
+    const response = await axios.post('https://movinghomecompany.com/costingapp/insertFormData', { DealId: "345gfgt", formData: props.data });
     if(response.data){
      alert("Sucessfuly submit your form");
     }
