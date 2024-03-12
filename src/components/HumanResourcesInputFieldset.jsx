@@ -43,7 +43,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
     let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
-    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation : overallcost  });
 
   };
@@ -58,7 +58,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
     let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
-    overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 

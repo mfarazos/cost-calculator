@@ -44,6 +44,16 @@ const App = () => {
                 "hours":0,
                 "cost":0
              }
+          ],
+          "others":[
+            {
+               "otherService":"",
+               "otherserviceValue": "",
+               "currency":"",
+               "currencyNotes":"",
+               "margin":"",
+               "cost":0
+            }
           ]
        }
     ],
@@ -59,7 +69,14 @@ const App = () => {
       "other":0,
       "Quatation":0
 
+    },
+    "ZonePrice": {
+      "selectedZone":"",
+      "pricepercubicfeed":0,
+      "numberofcubicfeed":0,
+      "TotalCost":0,
     }
+
  });
  const [currentDataIndex, setCurrentDataIndex] = useState(0)
 
@@ -96,7 +113,7 @@ const App = () => {
         <CostCalculationFieldset data={data} />
         </div>
         <div className="col-12">
-        <CostTypeInputFieldset />
+        <CostTypeInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
         </div>
       </div>
     </div>
