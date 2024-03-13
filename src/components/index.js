@@ -4,3 +4,4 @@ export {default as HumanResourcesInputFieldset} from './HumanResourcesInputField
 export {default as MaterialsInputFieldset} from './MaterialsInputFieldset';
 export {default as CostCalculationFieldset} from './CostCalculationFieldset';
 export {default as CostTypeInputFieldset} from './CostTypeInputFieldset';
+export {default as TimeZoneFieldset} from './TimeZoneFieldset';

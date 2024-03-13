@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
-import {DayTaskInputFieldset, VehicleInputFieldset, HumanResourcesInputFieldset, MaterialsInputFieldset, CostCalculationFieldset, CostTypeInputFieldset} from "./components";
+import {DayTaskInputFieldset, VehicleInputFieldset, HumanResourcesInputFieldset, MaterialsInputFieldset, CostCalculationFieldset, CostTypeInputFieldset, TimeZoneFieldset} from "./components";
 
 const App = () => {
   const [data, setData] = useState(
@@ -102,6 +102,7 @@ const App = () => {
       <div className="row">
         <div className="col-lg-4 col-12">
           <DayTaskInputFieldset data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
+          <TimeZoneFieldset />
         </div>
         <div className="col-lg-5 col-12">
         <VehicleInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />

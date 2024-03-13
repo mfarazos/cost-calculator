@@ -87,7 +87,7 @@ const calculateTotalHuman = (day) => {
         </select>))}
       </div>
       <div className="col-2 mb-5 ps-2 pe-0">
-        <p className='w-100 text-start mb-1'>No. of days.</p>
+        <p className='w-100 text-start mb-1'>Day #.</p>
         {humanResourcesData.map((item, index) => (<input type="number" key={index} onChange={(e) => handleDaysChange(e, index)} value={item?.days} className="form-control mb-3" />))}
       </div>
       <div className="col-1 mb-5 ps-2 pe-0">
