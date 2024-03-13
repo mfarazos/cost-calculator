@@ -38,7 +38,7 @@ const calculateTotalHuman = (day) => {
     let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].resources[index].resource_Value = e.target.value;
     newData[props.currentDataIndex].resources[index].resource_name = e.target.options[e.target.selectedIndex].text;
-    newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].resource_Value);
+    newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].days);
     overallcost.HumanTotalCost = calculateTotalCost(newData);
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
     let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;

@@ -73,7 +73,7 @@ const App = () => {
     },
     "ZonePrice": {
       "selectedZone":"",
-      "pricepercubicfeed":0,
+      "pricepercubicfeed":"",
       "numberofcubicfeed":0,
       "TotalCost":0,
     }
@@ -102,7 +102,7 @@ const App = () => {
       <div className="row">
         <div className="col-lg-4 col-12">
           <DayTaskInputFieldset data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
-          <TimeZoneFieldset />
+          <TimeZoneFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
         </div>
         <div className="col-lg-5 col-12">
         <VehicleInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
