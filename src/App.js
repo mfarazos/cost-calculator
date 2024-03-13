@@ -6,8 +6,6 @@ import {DayTaskInputFieldset, VehicleInputFieldset, HumanResourcesInputFieldset,
 const App = () => {
   const [data, setData] = useState(
     {
-    "_id":"5f62474711942389452e9098",
-    "deal_id":1,
     "days":[
        {
           "date":"",
@@ -82,9 +80,12 @@ const App = () => {
  const [currentDataIndex, setCurrentDataIndex] = useState(0)
 
  useEffect(()=>{
+   const params = new URLSearchParams(window.location.search);
+    const dealId = params.get('DealId');
    (async () => {
       try {
-         const response = await axios.post('https://movinghomecompany.com/costingapp/GetFormData', { DealId: "345gfgt"});
+         console.log("params", dealId);
+         const response = await axios.post('https://movinghomecompany.com/costingapp/GetFormData', { DealId: dealId});
          console.log(response.data.success);
          if(response.data.success){
             setData(response.data.data);

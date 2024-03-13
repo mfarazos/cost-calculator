@@ -1,11 +1,12 @@
 import React from 'react'
 import axios from 'axios';
-
 export default function CostCalculationFieldset(props) {
- 
+  
 async function submitForm(){
   try {
-    const response = await axios.post('https://movinghomecompany.com/costingapp/insertFormData', { DealId: "345gfgt", formData: props.data });
+    const params = new URLSearchParams(window.location.search);
+    const dealId = params.get('DealId');
+    const response = await axios.post('https://movinghomecompany.com/costingapp/insertFormData', { DealId: dealId, formData: props.data });
     if(response.data){
      alert("Sucessfuly submit your form");
     }
@@ -75,7 +76,7 @@ async function submitForm(){
         </div>
         <div className="actions my-4 d-flex justify-content-between">
           <button type="button" className="btn btn-primary fs-4 fw-bolder">Σ</button>
-          <button type="button" onClick={submitForm()} className="btn btn-secondary px-5 fw-bold">Accept</button>
+          <button type="button" onClick={submitForm} className="btn btn-secondary px-5 fw-bold">Accept</button>
         </div>
         <div className="form-check mb-2">
           <input className="form-check-input" type="checkbox" value="" id="show-resource-detail" />
