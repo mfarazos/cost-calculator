@@ -12,6 +12,14 @@ export default function CostTypeInputFieldset(props) {
      });
   const OtherData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].others) ? props?.data.days[props.currentDataIndex].others : [];
 
+
+  const calculateTotalCost = (days) => {
+    return days.reduce((totalSum, day) => totalSum + calculateCostSum(day), 0);
+  };
+  const calculateCostSum = (day) => {
+    return day.others.reduce((sum, other) => sum + other.cost, 0);
+  };
+
   const handleAddField = () => {
     props.setData((prevData) => {
       const updatedDays = prevData.days.map((day, index) => {
@@ -81,9 +89,9 @@ export default function CostTypeInputFieldset(props) {
     const newData = [...props.data.days];
     // let overallcost = {...props.data.costCalculation}
      newData[props.currentDataIndex].others[index].cost = +(e.target.value)
-    // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
+     //newData[props.currentDataIndex].others[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
     // let totalVehicleCost = calculateTotalCost(newData);
-    // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
+    newData[props.currentDataIndex].totalOtherCost = calculateCostSum(newData[props.currentDataIndex])
     // overallcost.VehicleTotalCost = totalVehicleCost;
     // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     // overallcost.TotalCost = totatcostcalculation;
@@ -141,15 +149,14 @@ export default function CostTypeInputFieldset(props) {
                 {OtherData.map((item, index) => ( <input type="text" value={item?.margin} onChange={(e) => handleChangeMargin(e, index)} className="form-control mb-3" />))}
             </div>
             <div className="col-2 px-0"></div>
-            <div className="col-2 ps-2 pe-0">
-                 <input type="text" readOnly className="form-control mb-3" />
-            </div>
+            
             <div className="col-2 ps-2 pe-0"></div>
             <div className="col-2 ps-2 pe-0">
             </div>
             <div className="col-2 ps-2 pe-0"></div>
             <div className="col-2 ps-2 pe-0">
-                <input type="text" readOnly className="form-control mb-3" />
+            <p className='w-100 text-start mb-1'>Total Other Cost</p>
+                <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex].totalOtherCost} />
             </div>
             <div className="col-12 p-0">
         <button className="btn btn-primary" onClick={handleAddField}>Add Other Cost</button>

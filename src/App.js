@@ -13,6 +13,7 @@ const App = () => {
           "date":"",
           "task":"",
           "totalVehicle": 0,
+          "totalOtherCost": 0,
           "totalVehicleCost": 0,
           "totalResource": 0,
           "totalResourceCost": 0,
