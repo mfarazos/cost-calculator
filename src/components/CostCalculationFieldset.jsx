@@ -6,7 +6,11 @@ async function submitForm(){
   try {
     const params = new URLSearchParams(window.location.search);
     const dealId = params.get('DealId');
-    const response = await axios.post('https://movinghomecompany.com/costingapp/insertFormData', { DealId: dealId, formData: props.data });
+    if(!dealId){
+      alert("DealId not found");
+      return;
+    }
+    const response = await axios.post('https://leads.movinghomecompany.com/costingapp/insertFormData', { DealId: dealId, formData: props.data });
     if(response.data){
      alert("Sucessfuly submit your form");
     }

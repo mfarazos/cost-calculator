@@ -82,10 +82,13 @@ const App = () => {
  useEffect(()=>{
    const params = new URLSearchParams(window.location.search);
     const dealId = params.get('DealId');
+    if(!dealId){
+      return;
+    }
    (async () => {
       try {
          console.log("params", dealId);
-         const response = await axios.post('https://movinghomecompany.com/costingapp/GetFormData', { DealId: dealId});
+         const response = await axios.post('https://leads.movinghomecompany.com/costingapp/GetFormData', { DealId: dealId});
          console.log(response.data.success);
          if(response.data.success){
             setData(response.data.data);
