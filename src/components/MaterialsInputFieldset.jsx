@@ -36,7 +36,7 @@ const calculateTotalCost = (days) => {
     newData[props.currentDataIndex].material[index].cost = +(e.target.value) * newData[props.currentDataIndex].material[index].hours 
     newData[props.currentDataIndex].totalMaterialCost = calculateCostSum(newData[props.currentDataIndex])
     overallcost.materialTotalCost = overallcost.materialTotalCost = calculateTotalCost(newData);
-    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
     overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });
@@ -49,7 +49,7 @@ const calculateTotalCost = (days) => {
     newData[props.currentDataIndex].material[index].cost = e.target.valueAsNumber * +(newData[props.currentDataIndex].material[index].materialValue) || 0;
     newData[props.currentDataIndex].totalMaterialCost = calculateCostSum(newData[props.currentDataIndex])
     overallcost.materialTotalCost = calculateTotalCost(newData);
-    let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
     overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });

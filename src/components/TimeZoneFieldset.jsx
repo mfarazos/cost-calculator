@@ -6,31 +6,34 @@ export default function TimeZoneFieldset(props) {
     const handleChangeCurrency = (e) => {
         //const newData = [...props.data.days];
          let cost = {...props.data.ZonePrice}
+         let overallcost = {...props.data.costCalculation}
          //newData[props.currentDataIndex].others[index].currency = e.target.value
         // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
         // let totalVehicleCost = calculateTotalCost(newData);
         // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
          cost.pricepercubicfeed = e.target.value;
          cost.TotalCost = cost.numberofcubicfeed * +(cost.pricepercubicfeed);
-        // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-        // overallcost.TotalCost = totatcostcalculation;
-        // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
-         props.setData({ ...props.data, ZonePrice: cost });
+         let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+         overallcost.TotalCost = totatcostcalculation;
+         overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+         props.setData({ ...props.data, ZonePrice: cost, costCalculation: overallcost });
       };
 
       const handleChangeCost = (e) => {
         //const newData = [...props.data.days];
          let cost = {...props.data.ZonePrice}
+         let overallcost = {...props.data.costCalculation}
          //newData[props.currentDataIndex].others[index].currency = e.target.valueAsNumber
         // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
         // let totalVehicleCost = calculateTotalCost(newData);
         // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
         cost.numberofcubicfeed = e.target.valueAsNumber 
         cost.TotalCost = e.target.valueAsNumber * +(cost.pricepercubicfeed);
-        // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-        // overallcost.TotalCost = totatcostcalculation;
-        // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
-         props.setData({ ...props.data, ZonePrice: cost });
+          
+         let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+         overallcost.TotalCost = totatcostcalculation;
+         overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+         props.setData({ ...props.data, ZonePrice: cost, costCalculation: overallcost });
       };
 
     return (

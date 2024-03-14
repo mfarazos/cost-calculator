@@ -87,16 +87,17 @@ export default function CostTypeInputFieldset(props) {
 
   const handleChangeCost = (e, index) => {
     const newData = [...props.data.days];
-    // let overallcost = {...props.data.costCalculation}
+     let overallcost = {...props.data.costCalculation}
      newData[props.currentDataIndex].others[index].cost = +(e.target.value)
      //newData[props.currentDataIndex].others[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
     // let totalVehicleCost = calculateTotalCost(newData);
     newData[props.currentDataIndex].totalOtherCost = calculateCostSum(newData[props.currentDataIndex])
+    overallcost.other = calculateTotalCost(newData);
     // overallcost.VehicleTotalCost = totalVehicleCost;
-    // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-    // overallcost.TotalCost = totatcostcalculation;
-    // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
-     props.setData({ ...props.data, days: newData });
+     let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+     overallcost.TotalCost = totatcostcalculation;
+     overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+     props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
   };
 
   const handleChangeMargin = (e, index) => {
