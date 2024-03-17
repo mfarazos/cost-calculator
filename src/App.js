@@ -31,7 +31,7 @@ const App = () => {
                 "resource_name":"",
                 "resource_Value": "",
                 "days":0,
-                "overnight": true,
+                "overnight": false,
                 "hours":0,
                 "cost":0
              }
@@ -50,7 +50,7 @@ const App = () => {
                "otherserviceValue": "",
                "currency":"",
                "currencyNotes":"",
-               "margin":"",
+               "margin":0,
                "cost":0
             }
           ]

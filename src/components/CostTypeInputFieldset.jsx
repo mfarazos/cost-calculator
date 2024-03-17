@@ -7,7 +7,7 @@ export default function CostTypeInputFieldset(props) {
         otherserviceValue: "",
         currency:"",
         currencyNotes:"",
-        margin:"",
+        margin:0,
         cost:""
      });
   const OtherData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].others) ? props?.data.days[props.currentDataIndex].others : [];
@@ -37,73 +37,49 @@ export default function CostTypeInputFieldset(props) {
         otherserviceValue: "",
         currency:"",
         currencyNotes:"",
-        margin:"",
+        margin:0,
         cost:""
      });
   };
 
   const handleOtherserviceChange = (e, index) => {
     const newData = [...props.data.days];
-    // let overallcost = {...props.data.costCalculation}
      newData[props.currentDataIndex].others[index].otherService = e.target.options[e.target.selectedIndex].text;
      newData[props.currentDataIndex].others[index].otherserviceValue = e.target.value
-    // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
-    // let totalVehicleCost = calculateTotalCost(newData);
-    // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
-    // overallcost.VehicleTotalCost = totalVehicleCost;
-    // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-    // overallcost.TotalCost = totatcostcalculation;
-    // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
      props.setData({ ...props.data, days: newData });
   };
 
   const handleChangeCurrency = (e, index) => {
     const newData = [...props.data.days];
-    // let overallcost = {...props.data.costCalculation}
-     newData[props.currentDataIndex].others[index].currency = e.target.value
-    // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
-    // let totalVehicleCost = calculateTotalCost(newData);
-    // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
-    // overallcost.VehicleTotalCost = totalVehicleCost;
-    // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-    // overallcost.TotalCost = totatcostcalculation;
-    // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
-     props.setData({ ...props.data, days: newData });
+    newData[props.currentDataIndex].others[index].currency = e.target.value
+    props.setData({ ...props.data, days: newData });
   };
 
   const handleChangeCurrencyNotes = (e, index) => {
     const newData = [...props.data.days];
-    // let overallcost = {...props.data.costCalculation}
      newData[props.currentDataIndex].others[index].currencyNotes = e.target.value
-    // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
-    // let totalVehicleCost = calculateTotalCost(newData);
-    // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
-    // overallcost.VehicleTotalCost = totalVehicleCost;
-    // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-    // overallcost.TotalCost = totatcostcalculation;
-    // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
      props.setData({ ...props.data, days: newData });
   };
 
   const handleChangeCost = (e, index) => {
     const newData = [...props.data.days];
-     let overallcost = {...props.data.costCalculation}
-     newData[props.currentDataIndex].others[index].cost = +(e.target.value)
-     //newData[props.currentDataIndex].others[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
-    // let totalVehicleCost = calculateTotalCost(newData);
-    newData[props.currentDataIndex].totalOtherCost = calculateCostSum(newData[props.currentDataIndex])
+    let overallcost = {...props.data.costCalculation}
+    newData[props.currentDataIndex].others[index].cost = +(e.target.value)
+    //newData[props.currentDataIndex].others[index].margin
+    let withmargencost = ((calculateCostSum(newData[props.currentDataIndex]) / 100) * newData[props.currentDataIndex].others[index].margin )
+    newData[props.currentDataIndex].totalOtherCost = withmargencost + calculateCostSum(newData[props.currentDataIndex])
     overallcost.other = calculateTotalCost(newData);
-    // overallcost.VehicleTotalCost = totalVehicleCost;
      let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-     overallcost.TotalCost = totatcostcalculation;
-     overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+     let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
      props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
   };
 
   const handleChangeMargin = (e, index) => {
     const newData = [...props.data.days];
     // let overallcost = {...props.data.costCalculation}
-     newData[props.currentDataIndex].others[index].margin = e.target.value
+     newData[props.currentDataIndex].others[index].margin = e.target.valueAsNumber
     // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
     // let totalVehicleCost = calculateTotalCost(newData);
     // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
@@ -147,7 +123,7 @@ export default function CostTypeInputFieldset(props) {
             </div>
             <div className="col-2 mb-5 ps-2 pe-0">
                 <p className='w-100 text-start mb-1'>Margin</p>
-                {OtherData.map((item, index) => ( <input type="text" value={item?.margin} onChange={(e) => handleChangeMargin(e, index)} className="form-control mb-3" />))}
+                {OtherData.map((item, index) => ( <input type="number" min={0} max={100} value={item?.margin} onChange={(e) => handleChangeMargin(e, index)} className="form-control mb-3" />))}
             </div>
             <div className="col-2 px-0"></div>
             

@@ -37,8 +37,9 @@ const calculateTotalCost = (days) => {
     newData[props.currentDataIndex].totalMaterialCost = calculateCostSum(newData[props.currentDataIndex])
     overallcost.materialTotalCost = overallcost.materialTotalCost = calculateTotalCost(newData);
     let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
-    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 
@@ -50,8 +51,9 @@ const calculateTotalCost = (days) => {
     newData[props.currentDataIndex].totalMaterialCost = calculateCostSum(newData[props.currentDataIndex])
     overallcost.materialTotalCost = calculateTotalCost(newData);
     let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
-    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 

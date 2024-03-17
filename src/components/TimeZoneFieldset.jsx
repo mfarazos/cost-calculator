@@ -13,9 +13,10 @@ export default function TimeZoneFieldset(props) {
         // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
          cost.pricepercubicfeed = e.target.value;
          cost.TotalCost = cost.numberofcubicfeed * +(cost.pricepercubicfeed);
-         let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-         overallcost.TotalCost = totatcostcalculation;
-         overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+         let totatcostcalculation = cost.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+         let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+        overallcost.TotalCost = totatcostcalculation;
+        overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
          props.setData({ ...props.data, ZonePrice: cost, costCalculation: overallcost });
       };
 
@@ -30,9 +31,10 @@ export default function TimeZoneFieldset(props) {
         cost.numberofcubicfeed = e.target.valueAsNumber 
         cost.TotalCost = e.target.valueAsNumber * +(cost.pricepercubicfeed);
           
-         let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-         overallcost.TotalCost = totatcostcalculation;
-         overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+         let totatcostcalculation = cost.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+         let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+        overallcost.TotalCost = totatcostcalculation;
+        overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
          props.setData({ ...props.data, ZonePrice: cost, costCalculation: overallcost });
       };
 

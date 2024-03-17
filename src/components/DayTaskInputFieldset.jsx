@@ -1,7 +1,54 @@
 import React, { useState } from 'react';
 
 export default function DayTaskInputFieldset(props) {
-const [newField, setNewField] = useState({ date: "", task: "", drivers: [{ driver_name: "", miles: "", days: "", fuelcost: "", cost: "" }], resources: [{ resource_name: "", days: "",overnight: false, hours: "", cost: "" }], material: [{ material: "", hours: "", cost: "" }] });
+const [newField, setNewField] = useState({
+  date:"",
+  task:"",
+  totalVehicle: 0,
+  totalOtherCost: 0,
+  totalVehicleCost: 0,
+  totalResource: 0,
+  totalResourceCost: 0,
+  totalMaterialCost: 0,
+  drivers:[
+     {
+        driver_name:"",
+        driver_value: "",
+        miles:0,
+        days:0,
+        fuelcost:0,
+        cost:0
+     }
+  ],
+  resources:[
+     {
+        resource_name:"",
+        resource_Value: "",
+        days:0,
+        overnight: false,
+        hours:0,
+        cost:0
+     }
+  ],
+  material:[
+     {
+        material:"",
+        materialValue: "",
+        hours:0,
+        cost:0
+     }
+  ],
+  others:[
+    {
+       otherService:"",
+       otherserviceValue: "",
+       currency:"",
+       currencyNotes:"",
+       margin:0,
+       cost:0
+    }
+  ]
+});
 
   const daysData = props.data && Array.isArray(props.data.days) ? props.data.days : [];
 
@@ -9,10 +56,54 @@ const [newField, setNewField] = useState({ date: "", task: "", drivers: [{ drive
   const handleAddField = () => {
     props.setData((prevData) => {
         return { ...prevData, days: [...prevData.days, newField] };
-      });    setNewField({ date: "", task: "", totalVehicleCost: 0,
-      totalResource: 0,
-      totalResourceCost: 0,
-      totalMaterialCost: 0, drivers: [{ driver_name: "", miles: "", days: "", fuelcost: "", cost: "" }], resources: [{ resource_name: "", days: "",overnight: false, hours: "", cost: "" }], material: [{ material: "", hours: "", cost: "" }] });
+      });    setNewField({
+        date:"",
+        task:"",
+        totalVehicle: 0,
+        totalOtherCost: 0,
+        totalVehicleCost: 0,
+        totalResource: 0,
+        totalResourceCost: 0,
+        totalMaterialCost: 0,
+        drivers:[
+           {
+              driver_name:"",
+              driver_value: "",
+              miles:0,
+              days:0,
+              fuelcost:0,
+              cost:0
+           }
+        ],
+        resources:[
+           {
+              resource_name:"",
+              resource_Value: "",
+              days:0,
+              overnight: false,
+              hours:0,
+              cost:0
+           }
+        ],
+        material:[
+           {
+              material:"",
+              materialValue: "",
+              hours:0,
+              cost:0
+           }
+        ],
+        others:[
+          {
+             otherService:"",
+             otherserviceValue: "",
+             currency:"",
+             currencyNotes:"",
+             margin:0,
+             cost:0
+          }
+        ]
+     });
   };
 
   const handleDateChange = (e, index) => {
