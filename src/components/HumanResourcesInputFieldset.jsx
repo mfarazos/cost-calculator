@@ -16,7 +16,7 @@ export default function HumanResourcesInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ resource_name: "", resource_Value: "", days: "",overnight: false, hours: "", cost: "" });
+    setNewField({ resource_name: "", resource_Value: "", days: "",overnight: false, hours: 0, cost: "" });
   };
 
     // Function to calculate the sum of material costs for a given day
@@ -38,7 +38,13 @@ const calculateTotalHuman = (day) => {
     let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].resources[index].resource_Value = e.target.value;
     newData[props.currentDataIndex].resources[index].resource_name = e.target.options[e.target.selectedIndex].text;
-    newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].days);
+    
+    if(newData[props.currentDataIndex].resources[index].overnight){
+    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) + 40)  * +(newData[props.currentDataIndex].resources[index].hours);
+    
+    }else{
+    newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].hours);
+    }
     overallcost.HumanTotalCost = calculateTotalCost(newData);
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
     let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
@@ -65,13 +71,55 @@ const calculateTotalHuman = (day) => {
   const handleOvernightChange = (e, index) => {
     const newData = [...props.data.days];
     newData[props.currentDataIndex].resources[index].overnight = e.target.checked;
-    props.setData({ ...props.data, days: newData });
+    let overallcost = {...props.data.costCalculation}
+    
+    if(newData[props.currentDataIndex].resources[index].overnight){
+    newData[props.currentDataIndex].resources[index].hours = newData[props.currentDataIndex].resources[index].hours;
+    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 40);
+    newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
+    overallcost.HumanTotalCost = calculateTotalCost(newData);
+    newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+    }else{
+    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * +(newData[props.currentDataIndex].resources[index].resource_Value);
+    newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
+    overallcost.HumanTotalCost = calculateTotalCost(newData);
+    newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+    }
+    
+    props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };  
 
   const handleHoursChange = (e, index) => {
+    // const newData = [...props.data.days];
+    // newData[props.currentDataIndex].resources[index].hours = e.target.valueAsNumber;
+    // props.setData({ ...props.data, days: newData });
+
+
     const newData = [...props.data.days];
+    let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].resources[index].hours = e.target.valueAsNumber;
-    props.setData({ ...props.data, days: newData });
+    
+    if(newData[props.currentDataIndex].resources[index].overnight){
+      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 40);
+    
+    }else{
+      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].resource_Value);
+    
+    }
+    
+    newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
+    overallcost.HumanTotalCost = calculateTotalCost(newData);
+    newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculation / 100) * 20) + totatcostcalculation;
+    props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 
   return (
@@ -86,10 +134,8 @@ const calculateTotalHuman = (day) => {
           <option value="100">Porter</option>
         </select>))}
       </div>
-      <div className="col-2 mb-5 ps-2 pe-0">
-        <p className='w-100 text-start mb-1'>Day #.</p>
-        {humanResourcesData.map((item, index) => (<input type="number" key={index} onChange={(e) => handleDaysChange(e, index)} value={item?.days} className="form-control mb-3" />))}
-      </div>
+      
+      
       <div className="col-1 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>O/N</p>
         {humanResourcesData.map((item, index) => (

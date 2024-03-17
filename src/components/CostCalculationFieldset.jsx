@@ -75,7 +75,7 @@ async function submitForm(){
         <div className="mb-3 row">
           <label htmlFor="Quote-Total-cost" className="col-3 col-form-label">Quote</label>
           <div className="col-9">
-            <input type="text" readOnly id='Quote-Total-cost' className="form-control" value={(props.data.costCalculation.Quatation).toFixed(2)} />
+            <input type="text" readOnly id='Quote-Total-cost' className="form-control" value={(props.data.costCalculation.Quatation)} />
           </div>
         </div>
         <div className="actions my-4 d-flex justify-content-between">
