@@ -8,7 +8,8 @@ export default function CostTypeInputFieldset(props) {
         currency:"",
         currencyNotes:"",
         margin:0,
-        cost:""
+        cost:0,
+        withmarginCost: 0
      });
   const OtherData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].others) ? props?.data.days[props.currentDataIndex].others : [];
 
@@ -17,7 +18,7 @@ export default function CostTypeInputFieldset(props) {
     return days.reduce((totalSum, day) => totalSum + calculateCostSum(day), 0);
   };
   const calculateCostSum = (day) => {
-    return day.others.reduce((sum, other) => sum + other.cost, 0);
+    return day.others.reduce((sum, other) => sum + other.withmarginCost, 0);
   };
 
   const handleAddField = () => {
@@ -65,29 +66,39 @@ export default function CostTypeInputFieldset(props) {
     const newData = [...props.data.days];
     let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].others[index].cost = +(e.target.value)
-    //newData[props.currentDataIndex].others[index].margin
-    let withmargencost = ((calculateCostSum(newData[props.currentDataIndex]) / 100) * newData[props.currentDataIndex].others[index].margin )
-    newData[props.currentDataIndex].totalOtherCost = withmargencost + calculateCostSum(newData[props.currentDataIndex])
+    let margintpercentage = ((+(e.target.value) / 100) * newData[props.currentDataIndex].others[index].margin )
+    
+    newData[props.currentDataIndex].others[index].withmarginCost = +(e.target.value) + margintpercentage
+    newData[props.currentDataIndex].totalOtherCost = calculateCostSum(newData[props.currentDataIndex])
+    
     overallcost.other = calculateTotalCost(newData);
-     let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-     let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
     overallcost.TotalCost = totatcostcalculation;
     overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
-     props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
+    props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
   };
 
   const handleChangeMargin = (e, index) => {
     const newData = [...props.data.days];
-    // let overallcost = {...props.data.costCalculation}
-     newData[props.currentDataIndex].others[index].margin = e.target.valueAsNumber
-    // newData[props.currentDataIndex].drivers[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].drivers[index].days);
-    // let totalVehicleCost = calculateTotalCost(newData);
-    // newData[props.currentDataIndex].totalVehicleCost = calculateCostSum(newData[props.currentDataIndex])
-    // overallcost.VehicleTotalCost = totalVehicleCost;
-    // let totatcostcalculation = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
-    // overallcost.TotalCost = totatcostcalculation;
-    // overallcost.Quatation = ((totatcostcalculation / 1000) * 20) + totatcostcalculation;
-     props.setData({ ...props.data, days: newData });
+    let overallcost = {...props.data.costCalculation}
+     
+    newData[props.currentDataIndex].others[index].margin = e.target.valueAsNumber
+    
+    
+     let margintpercentage = ((+(newData[props.currentDataIndex].others[index].cost) / 100) * newData[props.currentDataIndex].others[index].margin )
+     
+     newData[props.currentDataIndex].others[index].withmarginCost = +(newData[props.currentDataIndex].others[index].cost) + margintpercentage
+     newData[props.currentDataIndex].totalOtherCost = calculateCostSum(newData[props.currentDataIndex])
+     
+     overallcost.other = calculateTotalCost(newData);
+     
+     let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+     let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+     overallcost.TotalCost = totatcostcalculation;
+     overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
+     props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
   };
 
 

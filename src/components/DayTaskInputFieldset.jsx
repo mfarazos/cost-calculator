@@ -45,7 +45,8 @@ const [newField, setNewField] = useState({
        currency:"",
        currencyNotes:"",
        margin:0,
-       cost:0
+       cost:0,
+       withmarginCost: 0
     }
   ]
 });
@@ -100,7 +101,8 @@ const [newField, setNewField] = useState({
              currency:"",
              currencyNotes:"",
              margin:0,
-             cost:0
+             cost:0,
+             withmarginCost: 0
           }
         ]
      });

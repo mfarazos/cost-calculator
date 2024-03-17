@@ -51,7 +51,8 @@ const App = () => {
                "currency":"",
                "currencyNotes":"",
                "margin":0,
-               "cost":0
+               "cost":0,
+               "withmarginCost": 0
             }
           ]
        }
