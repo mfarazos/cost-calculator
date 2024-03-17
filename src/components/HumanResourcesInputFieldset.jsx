@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export default function HumanResourcesInputFieldset(props) {
-  const [newField, setNewField] = useState({ resource_name: "", resource_Value: "", days: "",overnight: false, hours: "", cost: "" });
+  const [newField, setNewField] = useState({ resource_name: "3.5T Driver", resource_Value: "120", days: "",overnight: false, hours: 0, cost: 0 });
   const humanResourcesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].resources) ? props?.data.days[props.currentDataIndex].resources : [];
 
   const handleAddField = () => {
@@ -16,7 +16,7 @@ export default function HumanResourcesInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ resource_name: "", resource_Value: "", days: "",overnight: false, hours: 0, cost: "" });
+    setNewField({ resource_name: "3.5T Driver", resource_Value: "120", days: "",overnight: false, hours: 0, cost: 0 });
   };
 
     // Function to calculate the sum of material costs for a given day
@@ -30,7 +30,7 @@ const calculateTotalCost = (days) => {
 };
 
 const calculateTotalHuman = (day) => {
-  return day.resources.reduce((sum, resource) => sum + resource.days, 0);
+  return day.resources.reduce((sum, resource) => sum + resource.hours, 0);
 };
 
   const handleresourceChange = (e, index) => {
@@ -40,7 +40,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].resources[index].resource_name = e.target.options[e.target.selectedIndex].text;
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) + 40)  * +(newData[props.currentDataIndex].resources[index].hours);
+    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) + 45)  * +(newData[props.currentDataIndex].resources[index].hours);
     
     }else{
     newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].hours);
@@ -77,7 +77,7 @@ const calculateTotalHuman = (day) => {
     
     if(newData[props.currentDataIndex].resources[index].overnight){
     newData[props.currentDataIndex].resources[index].hours = newData[props.currentDataIndex].resources[index].hours;
-    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 40);
+    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 45);
     newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
     overallcost.HumanTotalCost = calculateTotalCost(newData);
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
@@ -110,7 +110,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].resources[index].hours = e.target.valueAsNumber;
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 40);
+      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 45);
     
     }else{
       newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].resource_Value);
@@ -153,7 +153,7 @@ const calculateTotalHuman = (day) => {
       <div className="col-2 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>Hours</p>
         {humanResourcesData.map((item, index) => (
-          <input type="number" key={index} value={item?.hours} onChange={(e) => handleHoursChange(e, index)} className="form-control mb-3 bg-warning bg-opacity-10" />
+          <input type="number" min={0} key={index} value={item?.hours} onChange={(e) => handleHoursChange(e, index)} className="form-control mb-3 bg-warning bg-opacity-10" />
         ))}
       </div>
       <div className="col-3 mb-5 ps-2 pe-0">

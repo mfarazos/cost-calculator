@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export default function VehicleInputFieldset(props) {
-  const [newField, setNewField] = useState({ driver_name: "", driver_value: "", miles: "", days: "", fuelcost: "", cost: "" });
+  const [newField, setNewField] = useState({ driver_name: "3.5T", driver_value: "100", miles: 0, days: 0, fuelcost: 0, cost: 0 });
   const vehiclesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].drivers) ? props?.data.days[props.currentDataIndex].drivers : [];
 
   const handleAddField = () => {
@@ -16,7 +16,7 @@ export default function VehicleInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ driver_name: "", driver_value: "", miles: "", days: "", fuelcost: "", cost: "" });
+    setNewField({ driver_name: "3.5T", driver_value: "100", miles: 0, days: 0, fuelcost: 0, cost: 0 });
   };
 
   // Function to calculate the sum of material costs for a given day
@@ -106,11 +106,11 @@ const calculateTotalfuelCost = (days) => {
       </div>
       <div className="col-2 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>Miles</p>
-        {vehiclesData.map((item, index) => (<input key={index} type="number" value={item?.miles} onChange={(e) => handleMilesChange(e, index)} className="form-control mb-3" />))}
+        {vehiclesData.map((item, index) => (<input key={index} type="number" min={0} value={item?.miles} onChange={(e) => handleMilesChange(e, index)} className="form-control mb-3" />))}
       </div>
       <div className="col-2 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>No.</p>
-        {vehiclesData.map((item, index) => (<input type="number" key={index} value={item?.days} onChange={(e) => handledaysChange(e, index)}  className="form-control mb-3" />))}
+        {vehiclesData.map((item, index) => (<input type="number" min={0} key={index} value={item?.days} onChange={(e) => handledaysChange(e, index)}  className="form-control mb-3" />))}
       </div>
       <div className="col-2 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>Fuel</p>

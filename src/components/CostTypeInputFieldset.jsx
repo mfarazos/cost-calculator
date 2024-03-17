@@ -39,7 +39,8 @@ export default function CostTypeInputFieldset(props) {
         currency:"",
         currencyNotes:"",
         margin:0,
-        cost:""
+        cost:0,
+        withmarginCost: 0
      });
   };
 
@@ -126,7 +127,7 @@ export default function CostTypeInputFieldset(props) {
             </div>
             <div className="col-2 mb-5 ps-2 pe-0">
                 <p className='w-100 text-start mb-1'>Cost</p>
-                {OtherData.map((item, index) => ( <input type="number" value={item?.cost} onChange={(e) => handleChangeCost(e, index)} className="form-control mb-3" />))}
+                {OtherData.map((item, index) => ( <input type="number" min={0} value={item?.cost} onChange={(e) => handleChangeCost(e, index)} className="form-control mb-3" />))}
             </div>
             <div className="col-2 mb-5 ps-2 pe-0">
                 <p className='w-100 text-start mb-1'>Cost Notes</p>

@@ -18,8 +18,8 @@ const App = () => {
           "totalMaterialCost": 0,
           "drivers":[
              {
-                "driver_name":"",
-                "driver_value": "",
+                "driver_name":"3.5T",
+                "driver_value": "100",
                 "miles":0,
                 "days":0,
                 "fuelcost":0,
@@ -28,8 +28,8 @@ const App = () => {
           ],
           "resources":[
              {
-                "resource_name":"",
-                "resource_Value": "",
+                "resource_name":"3.5T Driver",
+                "resource_Value": "120",
                 "days":0,
                 "overnight": false,
                 "hours":0,
@@ -38,8 +38,8 @@ const App = () => {
           ],
           "material":[
              {
-                "material":"",
-                "materialValue": "",
+                "material":"Pk 1 Carton",
+                "materialValue": "1.5",
                 "hours":0,
                 "cost":0
              }

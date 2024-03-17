@@ -82,18 +82,7 @@ async function submitForm(){
           <button type="button" className="btn btn-primary fs-4 fw-bolder">Σ</button>
           <button type="button" onClick={submitForm} className="btn btn-secondary px-5 fw-bold">Accept</button>
         </div>
-        <div className="form-check mb-2">
-          <input className="form-check-input" type="checkbox" value="" id="show-resource-detail" />
-          <label className="form-check-label" htmlFor="show-resource-detail">
-            Show Resource Details
-          </label>
-        </div>
-        <div className="form-check">
-          <input className="form-check-input" type="checkbox" value="" id="show-material-cost" />
-          <label className="form-check-label" htmlFor="show-material-cost">
-            Show Material Cost
-          </label>
-        </div>
+        
       </div>
     </fieldset>
   )

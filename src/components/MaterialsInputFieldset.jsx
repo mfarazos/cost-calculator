@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function MaterialsInputFieldset(props) {
-  const [newField, setNewField] = useState({ material: "", materialValue: "", hours: "", cost: "" });
+  const [newField, setNewField] = useState({ material: "Pk 1 Carton", materialValue: "1.5", hours: 0, cost: 0 });
   const MaterialData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].material) ? props?.data.days[props.currentDataIndex].material : [];
   const handleAddField = () => {
     props.setData((prevData) => {
@@ -15,7 +15,7 @@ export default function MaterialsInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ material: "", materialValue: "", hours: "", cost: "" });
+    setNewField({ material: "Pk 1 Carton", materialValue: "1.5", hours: 0, cost: 0 });
   };
 
     // Function to calculate the sum of material costs for a given day
@@ -84,7 +84,7 @@ const calculateTotalCost = (days) => {
         <div className="col-3 mb-5 ps-2 pe-0">
           <p className='w-100 text-start mb-1'>QTY</p>
           {MaterialData.map((item, index) => (
-            <input type="number" className="form-control mb-3 bg-warning bg-opacity-10" value={item?.hours} onChange={(e) => {handleHoursChange(e, index)}} key={index} />
+            <input type="number" min={0} className="form-control mb-3 bg-warning bg-opacity-10" value={item?.hours} onChange={(e) => {handleHoursChange(e, index)}} key={index} />
           ))}
         </div>
         <div className="col-3 mb-5 ps-2 pe-0">
