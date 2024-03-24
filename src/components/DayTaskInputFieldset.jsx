@@ -159,7 +159,9 @@ const [newField, setNewField] = useState({
           </div>
           <div className="col-1 p-0">
           <p className='w-100 text-start mb-1 invisible'>Remove</p>
-            <button className="border-0 bg-transparent form-control px-0" title='Remove This Field' onClick={(e) => handleRemoveField(e, index)}><AiOutlineClose /></button>
+          {(daysData.length > 1) && (
+              <button className="border-0 bg-transparent form-control px-0" title='Remove This Field' onClick={(e) => handleRemoveField(e, index)}><AiOutlineClose /></button>
+            )}
           </div>
         </fieldset>
       ))}
