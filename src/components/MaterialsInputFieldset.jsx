@@ -68,7 +68,15 @@ const calculateTotalCost = (days) => {
         return day;
       });
 
-      return { ...prevData, days: updatedDays };
+      let overallcost = {...props.data.costCalculation}
+      updatedDays[props.currentDataIndex].totalMaterialCost = calculateCostSum(updatedDays[props.currentDataIndex])
+      overallcost.materialTotalCost = calculateTotalCost(updatedDays);
+      let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+      let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+      overallcost.TotalCost = totatcostcalculation;
+      overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation;
+
+      return { ...prevData, days: updatedDays, costCalculation : overallcost };
     });
   };
 
