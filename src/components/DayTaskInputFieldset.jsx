@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { AiOutlineClose } from "react-icons/ai";
+
 
 export default function DayTaskInputFieldset(props) {
 const [newField, setNewField] = useState({
@@ -51,7 +53,7 @@ const [newField, setNewField] = useState({
   ]
 });
 
-  const daysData = props.data && Array.isArray(props.data.days) ? props.data.days : [];
+  const daysData = props?.data && Array.isArray(props?.data?.days) ? props?.data?.days : [];
 
 
   const handleAddField = () => {
@@ -120,10 +122,25 @@ const [newField, setNewField] = useState({
     props.setData({ ...props.data, days: newData });
   };
 
+  const handleRemoveField = (e, indexToRemove) => {
+    e.stopPropagation(); // Prevent event propagation
+
+    if (daysData.length <= 1) {
+      return; // Prevent removing the last field
+    }
+    props.setCurrentDataIndex(indexToRemove - 1)
+    props.setData((prevData) => {
+      const updatedDays = prevData.days.filter((day, index) => index !== indexToRemove);
+      return { ...prevData, days: updatedDays };
+    });
+  };
+
   return (
     <>
       {daysData.map((item, index) => (
-        <fieldset key={index} className={`row position-relative cursor-pointer p-2 mb-3 border border-1 rounded ${props.currentDataIndex === index ? "border-primary" : ""}`} onClick={() =>{props.setCurrentDataIndex(index)}}>
+        <fieldset key={index} className={`row position-relative cursor-pointer p-2 mb-3 border border-1 rounded ${props.currentDataIndex === index ? "border-primary" : ""}`} onClick={() =>{
+          props.setCurrentDataIndex(index)
+          }}>
           <div className="col-4 pe-0">
             <p className='w-100 text-start mb-1'>Day</p>
             <select className="form-select mb-3" aria-label="Select Day" value={item.date} onChange={(e) => handleDateChange(e, index)}>
@@ -136,9 +153,13 @@ const [newField, setNewField] = useState({
               <option value="Weekend">Weekend</option>
             </select>
           </div>
-          <div className="col-8">
+          <div className="col-7 pe-0">
             <p className='w-100 text-start mb-1'>Task</p>
             <input type="text" className="form-control mb-3" value={item.task} onChange={(e) => handleTaskChange(e, index)} />
+          </div>
+          <div className="col-1 p-0">
+          <p className='w-100 text-start mb-1 invisible'>Remove</p>
+            <button className="border-0 bg-transparent form-control px-0" title='Remove This Field' onClick={(e) => handleRemoveField(e, index)}><AiOutlineClose /></button>
           </div>
         </fieldset>
       ))}

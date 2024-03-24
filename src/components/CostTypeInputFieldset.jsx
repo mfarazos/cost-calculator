@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { AiOutlineClose } from "react-icons/ai";
 
 export default function CostTypeInputFieldset(props) {
 
@@ -11,7 +12,7 @@ export default function CostTypeInputFieldset(props) {
         cost:0,
         withmarginCost: 0
      });
-  const OtherData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].others) ? props?.data.days[props.currentDataIndex].others : [];
+  const OtherData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.others) ? props?.data.days[props.currentDataIndex]?.others : [];
 
 
   const calculateTotalCost = (days) => {
@@ -102,10 +103,22 @@ export default function CostTypeInputFieldset(props) {
      props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
   };
 
+  const handleRemoveField = (indexToRemove) => {
+    props.setData((prevData) => {
+      const updatedDays = prevData.days.map((day, index) => {
+        if (index === props.currentDataIndex) {
+          return { ...day, others: day.others.filter((other, index) => index !== indexToRemove) };
+        }
+        return day;
+      });
+
+      return { ...prevData, days: updatedDays };
+    });
+  };
 
     return (
         <fieldset className='row my-3 p-2 px-lg-3 border border-1 rounded'>
-            <div className="col-2 mb-5 px-0">
+            <div className="col-3 mb-5 px-0">
                 <p className='w-100 text-start mb-1'>Cost Type</p>
                 {OtherData.map((item, index) => (
                 <select className="form-select mb-3" aria-label="Select Vehicle" key={index} value={item?.driver_value} onChange={(e) => handleOtherserviceChange(e, index)}>
@@ -137,7 +150,17 @@ export default function CostTypeInputFieldset(props) {
                 <p className='w-100 text-start mb-1'>Margin</p>
                 {OtherData.map((item, index) => ( <input type="number" min={0} max={100} value={item?.margin} onChange={(e) => handleChangeMargin(e, index)} className="form-control mb-3" />))}
             </div>
-            <div className="col-2 px-0"></div>
+            <div className="col-1 p-0">
+          <p className='w-100 text-start mb-1 invisible'>Remove</p>
+          {OtherData.map((item, index) => (
+          (OtherData.length > 1) && (
+            <button key={index} className="border-0 bg-transparent form-control mb-3 px-0" title='Remove This Field' onClick={() => handleRemoveField(index)}>
+                <AiOutlineClose />
+              </button>
+            )
+          ))}          
+           </div>
+            <div className="col-3 px-0"></div>
             
             <div className="col-2 ps-2 pe-0"></div>
             <div className="col-2 ps-2 pe-0">
@@ -145,7 +168,7 @@ export default function CostTypeInputFieldset(props) {
             <div className="col-2 ps-2 pe-0"></div>
             <div className="col-2 ps-2 pe-0">
             <p className='w-100 text-start mb-1'>Total Other Cost</p>
-                <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex].totalOtherCost} />
+                <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex]?.totalOtherCost} />
             </div>
             <div className="col-12 p-0">
         <button className="btn btn-primary" onClick={handleAddField}>Add Other Cost</button>

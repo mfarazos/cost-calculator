@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { AiOutlineClose } from "react-icons/ai";
+
 
 export default function MaterialsInputFieldset(props) {
   const [newField, setNewField] = useState({ material: "Pk 1 Carton", materialValue: "1.5", hours: 0, cost: 0 });
-  const MaterialData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].material) ? props?.data.days[props.currentDataIndex].material : [];
+  const MaterialData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.material) ? props?.data.days[props.currentDataIndex]?.material : [];
   const handleAddField = () => {
     props.setData((prevData) => {
       const updatedDays = prevData.days.map((day, index) => {
@@ -57,6 +59,19 @@ const calculateTotalCost = (days) => {
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 
+  const handleRemoveField = (indexToRemove) => {
+    props.setData((prevData) => {
+      const updatedDays = prevData.days.map((day, index) => {
+        if (index === props.currentDataIndex) {
+          return { ...day, material: day.material.filter((material, index) => index !== indexToRemove) };
+        }
+        return day;
+      });
+
+      return { ...prevData, days: updatedDays };
+    });
+  };
+
   return (
     <>
       <fieldset className='row mx-lg-1 mb-3 p-2 border border-1 rounded'>
@@ -78,7 +93,7 @@ const calculateTotalCost = (days) => {
           </select>
           ))}
         </div>
-        <div className="col-2 mb-5 ps-2 pe-0">
+        <div className="col-1 mb-5 ps-2 pe-0">
         </div>
 
         <div className="col-3 mb-5 ps-2 pe-0">
@@ -93,12 +108,22 @@ const calculateTotalCost = (days) => {
           <input type="text" key={index} value={item?.cost} className="form-control mb-3 bg-success bg-opacity-10" />
           ))}
         </div>
+        <div className="col-1 p-0">
+          <p className='w-100 text-start mb-1 invisible'>Remove</p>
+          {MaterialData.map((item, index) => (
+            (MaterialData.length > 1) && (
+              <button key={index} className="border-0 bg-transparent mb-3 form-control px-0" title='Remove This Field' onClick={() => handleRemoveField(index)}>
+                <AiOutlineClose />
+              </button>
+            )
+          ))}
+        </div>
         <div className="col-4 px-0"></div>
-        <div className="col-2 ps-2 pe-0">
+        <div className="col-1 ps-2 pe-0">
         </div>
         <div className="col-3 ps-2 pe-0"></div>
-        <div className="col-3 ps-2 pe-0">
-          <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex].totalMaterialCost} />
+        <div className="col-4 ps-2 pe-0">
+          <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex]?.totalMaterialCost} />
         </div>
         <div className="col-12 p-0">
           <button className="btn btn-primary" onClick={handleAddField}>Add Material</button>

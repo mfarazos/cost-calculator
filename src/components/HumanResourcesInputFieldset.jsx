@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { AiOutlineClose } from "react-icons/ai";
+
 
 export default function HumanResourcesInputFieldset(props) {
   const [newField, setNewField] = useState({ resource_name: "3.5T Driver", resource_Value: "120", days: "",overnight: false, hours: 0, cost: 0 });
-  const humanResourcesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].resources) ? props?.data.days[props.currentDataIndex].resources : [];
+  const humanResourcesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.resources) ? props?.data.days[props.currentDataIndex]?.resources : [];
 
   const handleAddField = () => {
     props.setData((prevData) => {
@@ -127,6 +129,19 @@ const calculateTotalHuman = (day) => {
     props.setData({ ...props.data, days: newData, costCalculation : overallcost });
   };
 
+  const handleRemoveField = (indexToRemove) => {
+    props.setData((prevData) => {
+      const updatedDays = prevData.days.map((day, index) => {
+        if (index === props.currentDataIndex) {
+          return { ...day, resources: day.resources.filter((resource, index) => index !== indexToRemove) };
+        }
+        return day;
+      });
+
+      return { ...prevData, days: updatedDays };
+    });
+  };
+
   return (
     <fieldset className='row mx-lg-1 mb-3 p-2 border border-1 rounded'>
       <div className="col-4 mb-5 px-0">
@@ -150,7 +165,7 @@ const calculateTotalHuman = (day) => {
         ))}
       </div>
 
-      <div className="col-2 mb-5 ps-2 pe-0">
+      <div className="col-3 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>Hours</p>
         {humanResourcesData.map((item, index) => (
           <input type="number" min={0} key={index} value={item?.hours} onChange={(e) => handleHoursChange(e, index)} className="form-control mb-3 bg-warning bg-opacity-10" />
@@ -162,15 +177,25 @@ const calculateTotalHuman = (day) => {
           <input type="text" key={index} value={item?.cost} className="form-control mb-3 bg-success bg-opacity-10" />
         ))}
       </div>
+      <div className="col-1 p-0">
+          <p className='w-100 text-start mb-1 invisible'>Remove</p>
+          {humanResourcesData.map((item, index) => (
+          (humanResourcesData.length > 1) && (
+            <button key={index} className="border-0 bg-transparent mb-3 form-control px-0" title='Remove This Field' onClick={() => handleRemoveField(index)}>
+              <AiOutlineClose />
+            </button>
+          )
+        ))}
+      </div>
       <div className="col-4 px-0"></div>
-      <div className="col-2 ps-2 pe-0">
-        <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex].totalResource} />
-      </div>
       <div className="col-1 ps-2 pe-0"></div>
-      <div className="col-2 ps-2 pe-0"></div>
       <div className="col-3 ps-2 pe-0">
-        <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex].totalResourceCost} />
+        <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex]?.totalResource} />
       </div>
+      <div className="col-4 ps-2 pe-0">
+        <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex]?.totalResourceCost} />
+      </div>
+      {/* <div className="col-2 ps-2 pe-0"></div> */}
       <div className="col-12 p-0">
         <button className="btn btn-primary" onClick={handleAddField}>Add Human resource</button>
       </div>

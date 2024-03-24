@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { AiOutlineClose } from "react-icons/ai";
+
 
 export default function VehicleInputFieldset(props) {
   const [newField, setNewField] = useState({ driver_name: "3.5T", driver_value: "100", miles: 0, days: 0, fuelcost: 0, cost: 0 });
-  const vehiclesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex].drivers) ? props?.data.days[props.currentDataIndex].drivers : [];
+  const vehiclesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.drivers) ? props?.data.days[props.currentDataIndex]?.drivers : [];
 
   const handleAddField = () => {
     props.setData((prevData) => {
@@ -89,6 +91,18 @@ const calculateTotalfuelCost = (days) => {
     props.setData({ ...props.data, days: newData, costCalculation : overallcost  });
   };
 
+  const handleRemoveField = (indexToRemove) => {
+    props.setData((prevData) => {
+      const updatedDays = prevData.days.map((day, index) => {
+        if (index === props.currentDataIndex) {
+          return { ...day, drivers: day.drivers.filter((driver, index) => index !== indexToRemove) };
+        }
+        return day;
+      });
+
+      return { ...prevData, days: updatedDays };
+    });
+  };
 
   return (
     <>
@@ -116,18 +130,26 @@ const calculateTotalfuelCost = (days) => {
         <p className='w-100 text-start mb-1'>Fuel</p>
         {vehiclesData.map((item, index) => (<input type="text" readOnly key={index} value={item?.fuelcost} className="form-control mb-3 bg-warning bg-opacity-10" />))}
       </div>
-      <div className="col-3 mb-5 ps-2 pe-0">
+      <div className="col-2 mb-5 ps-2 pe-0">
         <p className='w-100 text-start mb-1'>Cost</p>
         {vehiclesData.map((item, index) => (<input type="text" readOnly key={index} value={item?.cost} className="form-control mb-3 bg-success bg-opacity-10" />))}
       </div>
+      <div className="col-1 p-0">
+          <p className='w-100 text-start mb-1 invisible'>Remove</p>
+
+          {vehiclesData.map((item, index) => (
+          (vehiclesData.length > 1) && (
+          <button key={index} className="border-0 bg-transparent mb-3 form-control px-0" title='Remove This Field' onClick={() => handleRemoveField(index)}><AiOutlineClose /></button>)))}
+          
+          </div>
       <div className="col-3 px-0"></div>
       <div className="col-2 ps-2 pe-0"></div>
       <div className="col-2 ps-2 pe-0">
-        <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex].totalVehicle} />
+        <input type="text" readOnly className="form-control mb-3" value={props?.data.days[props.currentDataIndex]?.totalVehicle} />
       </div>
       <div className="col-2 ps-2 pe-0"></div>
       <div className="col-3 ps-2 pe-0">
-        <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex].totalVehicleCost} />
+        <input type="text" readOnly className="form-control mb-3 bg-success bg-opacity-10" value={props?.data.days[props.currentDataIndex]?.totalVehicleCost} />
       </div>
       <div className="col-12 p-0">
         <button className="btn btn-primary" onClick={handleAddField}>Add Vehicle</button>
