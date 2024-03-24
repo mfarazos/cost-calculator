@@ -1,21 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
+import Swal from "sweetalert2";
 export default function CostCalculationFieldset(props) {
-  
+const [loader, setLoader] = useState(false);
 async function submitForm(){
+setLoader(true);
   try {
     const params = new URLSearchParams(window.location.search);
     const dealId = params.get('DealId');
     if(!dealId){
-      alert("DealId not found");
+      setLoader(false);
+      Swal.fire({
+        title: 'error',
+        text: "DealId not found",
+        icon: "error",
+      });
+    
       return;
     }
     const response = await axios.post('https://leads.movinghomecompany.com/costingapp/insertFormData', { DealId: dealId, formData: props.data });
     if(response.data){
-     alert("Sucessfuly submit your form");
+      
+      Swal.fire({
+        title: 'success',
+        text: "Sucessfuly submit your form",
+        icon: "success",
+      });
     }
+    setLoader(false);
  } catch (error) {
-    console.log(error);
+  setLoader(false);
+  Swal.fire({
+    title: 'error',
+    text: "Something went wrong",
+    icon: "error",
+  });
  }
 }  
   return (
@@ -81,8 +100,8 @@ async function submitForm(){
         <div className="actions my-4 d-flex justify-content-between">
           <button type="button" className="btn btn-primary fs-4 fw-bolder">Σ</button>
           <button type="button" onClick={submitForm} className="btn btn-secondary px-5 fw-bold">
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-          {/* <span role="status">Accept</span> */}
+          
+          {loader ?  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : <span role="status">Accept</span>}
             
             </button>
         </div>

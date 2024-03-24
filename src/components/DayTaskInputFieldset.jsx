@@ -14,8 +14,8 @@ const [newField, setNewField] = useState({
   totalMaterialCost: 0,
   drivers:[
      {
-        driver_name:"3.5T",
-        driver_value: "100",
+        driver_name:"",
+        driver_value: "0",
         miles:0,
         days:0,
         fuelcost:0,
@@ -24,18 +24,18 @@ const [newField, setNewField] = useState({
   ],
   resources:[
      {
-        resource_name:"3.5T Driver",
-        resource_Value: "120",
+        resource_name:"",
+        resource_Value: "0",
         days:0,
         overnight: false,
-        hours:0,
+        hours:8,
         cost:0
      }
   ],
   material:[
      {
-        material:"Pk 1 Carton",
-        materialValue: "1.5",
+        material:"",
+        materialValue: "0",
         hours:0,
         cost:0
      }
@@ -70,8 +70,8 @@ const [newField, setNewField] = useState({
         totalMaterialCost: 0,
         drivers:[
            {
-              driver_name:"3.5T",
-              driver_value: "100",
+              driver_name:"",
+              driver_value: "0",
               miles:0,
               days:0,
               fuelcost:0,
@@ -80,18 +80,18 @@ const [newField, setNewField] = useState({
         ],
         resources:[
            {
-              resource_name:"3.5T Driver",
-              resource_Value: "120",
+              resource_name:"",
+              resource_Value: "0",
               days:0,
               overnight: false,
-              hours:0,
+              hours:8,
               cost:0
            }
         ],
         material:[
            {
-              material:"Pk 1 Carton",
-              materialValue: "1.5",
+              material:"",
+              materialValue: "0",
               hours:0,
               cost:0
            }

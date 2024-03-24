@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 
 export default function HumanResourcesInputFieldset(props) {
-  const [newField, setNewField] = useState({ resource_name: "3.5T Driver", resource_Value: "120", days: "",overnight: false, hours: 0, cost: 0 });
+  const [newField, setNewField] = useState({ resource_name: "", resource_Value: "0", days: "",overnight: false, hours: 8, cost: 0 });
   const humanResourcesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.resources) ? props?.data.days[props.currentDataIndex]?.resources : [];
 
   const handleAddField = () => {
@@ -18,7 +18,7 @@ export default function HumanResourcesInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ resource_name: "3.5T Driver", resource_Value: "120", days: "",overnight: false, hours: 0, cost: 0 });
+    setNewField({ resource_name: "", resource_Value: "0", days: "",overnight: false, hours: 8, cost: 0 });
   };
 
     // Function to calculate the sum of material costs for a given day
@@ -42,7 +42,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].resources[index].resource_name = e.target.options[e.target.selectedIndex].text;
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) + 45)  * +(newData[props.currentDataIndex].resources[index].hours);
+    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) + props.resourceData.OverNightAmount)  * +(newData[props.currentDataIndex].resources[index].hours);
     
     }else{
     newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].hours);
@@ -79,7 +79,7 @@ const calculateTotalHuman = (day) => {
     
     if(newData[props.currentDataIndex].resources[index].overnight){
     newData[props.currentDataIndex].resources[index].hours = newData[props.currentDataIndex].resources[index].hours;
-    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 45);
+    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + props.resourceData.OverNightAmount);
     newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
     overallcost.HumanTotalCost = calculateTotalCost(newData);
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
@@ -112,7 +112,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].resources[index].hours = e.target.valueAsNumber;
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + 45);
+      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + props.resourceData.OverNightAmount);
     
     }else{
       newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].resource_Value);
@@ -147,11 +147,10 @@ const calculateTotalHuman = (day) => {
       <div className="col-4 mb-5 px-0">
         <p className='w-100 text-start mb-1'>Human resources</p>
         {humanResourcesData.map((item, index) => (<select className="form-select mb-3" key={index} value={item.resource_Value} onChange={(e) => handleresourceChange(e, index)} aria-label="Select Vehicle">
-          <option disabled value="" className='d-none'></option>
-          <option value="120">3.5T Driver</option>
-          <option value="150">7.5T Driver</option>
-          <option value="151">HGV driver</option>
-          <option value="100">Porter</option>
+          <option disabled value="0" className='d-none'></option>
+          {props.resourceData.resourceOptions.map((option, idx) => (
+            <option key={idx} value={option.value}>{option.name}</option>
+          ))}
         </select>))}
       </div>
       

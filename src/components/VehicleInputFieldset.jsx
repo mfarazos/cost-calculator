@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 
 export default function VehicleInputFieldset(props) {
-  const [newField, setNewField] = useState({ driver_name: "3.5T", driver_value: "100", miles: 0, days: 0, fuelcost: 0, cost: 0 });
+  const [newField, setNewField] = useState({ driver_name: "", driver_value: "0", miles: 0, days: 0, fuelcost: 0, cost: 0 });
   const vehiclesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.drivers) ? props?.data.days[props.currentDataIndex]?.drivers : [];
 
   const handleAddField = () => {
@@ -18,7 +18,7 @@ export default function VehicleInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ driver_name: "3.5T", driver_value: "100", miles: 0, days: 0, fuelcost: 0, cost: 0 });
+    setNewField({ driver_name: "", driver_value: "0", miles: 0, days: 0, fuelcost: 0, cost: 0 });
   };
 
   // Function to calculate the sum of material costs for a given day
@@ -60,7 +60,7 @@ const calculateTotalfuelCost = (days) => {
   };
 
   const handleMilesChange = (e, index) => {
-    let val = 0.9;
+    let val = props.vehicleData.fuelAmount;
     const newData = [...props.data.days];
     let overallcost = {...props.data.costCalculation}
     newData[props.currentDataIndex].drivers[index].miles = e.target.valueAsNumber;
@@ -111,10 +111,10 @@ const calculateTotalfuelCost = (days) => {
         <p className='w-100 text-start mb-1'>Vehicles</p>
         {vehiclesData.map((item, index) => (
         <select className="form-select mb-3" key={index} value={item?.driver_value} aria-label="Select Vehicle" onChange={(e) => handleVehicleChange(e, index)}>
-          <option disabled selected value="" className='d-none'></option>
-          <option value="100">3.5T</option>
-          <option value="150">7.5T</option>
-          <option value="200">HGV</option>
+          <option disabled selected value="0" className='d-none'></option>
+          {props.vehicleData.vehicleOptions.map((option, idx) => (
+            <option key={idx} value={option.value}>{option.name}</option>
+          ))}
         </select>
         ))} 
       </div>

@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 
 export default function MaterialsInputFieldset(props) {
-  const [newField, setNewField] = useState({ material: "Pk 1 Carton", materialValue: "1.5", hours: 0, cost: 0 });
+  const [newField, setNewField] = useState({ material: "", materialValue: "0", hours: 0, cost: 0 });
   const MaterialData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.material) ? props?.data.days[props.currentDataIndex]?.material : [];
   const handleAddField = () => {
     props.setData((prevData) => {
@@ -17,7 +17,7 @@ export default function MaterialsInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ material: "Pk 1 Carton", materialValue: "1.5", hours: 0, cost: 0 });
+    setNewField({ material: "", materialValue: "0", hours: 0, cost: 0 });
   };
 
     // Function to calculate the sum of material costs for a given day
@@ -79,17 +79,10 @@ const calculateTotalCost = (days) => {
           <p className='w-100 text-start mb-1'>Materials</p>
           {MaterialData.map((item, index) => (
           <select className="form-select mb-3" key={index} value={item.materialValue} onChange={(e) => {handleMaterialChange(e, index)}} aria-label="Select Material">
-            <option disabled value="" className='d-none'></option>
-            <option value="1.5">Pk 1 Carton </option>
-            <option value="1.51">PK 2 Carton</option>
-            <option value="6.5">Wardrobe Carton</option>
-            <option value="12">Ream of Paper</option>
-            <option value="80">Bubble Blanket Roll</option>
-            <option value="7.5">TV Wrap</option>
-            <option value="4">Picture Wrap</option>
-            <option value="0.6">Tape</option>
-            <option value="3.5">Single Mattress Cover</option>
-            <option value="2.5">Double Mattress Cover</option>
+            <option disabled value="0" className='d-none'></option>
+            {props.materialData.materialOptions.map((option, idx) => (
+            <option key={idx} value={option.value}>{option.name}</option>
+          ))}
           </select>
           ))}
         </div>

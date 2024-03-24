@@ -44,10 +44,9 @@ export default function TimeZoneFieldset(props) {
                 <p className='w-100 text-start mb-1'>Eurozone</p>
                 <select className="form-select" value={props.data.ZonePrice.pricepercubicfeed} aria-label="Select TimeZone" onChange={(e) => handleChangeCurrency(e)} >
                     <option disabled value="" className='d-none'></option>
-                    <option value="10">North France</option>
-                    <option value="20">South France</option>
-                    <option value="30">North Germany</option>
-                    <option value="40">South Germany</option>
+                    {props.eurozoneData.eurozoneOptions.map((option, idx) => (
+                        <option key={idx} value={option.value}>{option.name}</option>
+                    ))}
                 </select>
             </div>
             <div className="col-3 mb-4 ps-2 pe-0">

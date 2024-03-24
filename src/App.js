@@ -18,8 +18,8 @@ const App = () => {
           "totalMaterialCost": 0,
           "drivers":[
              {
-                "driver_name":"3.5T",
-                "driver_value": "100",
+                "driver_name":"",
+                "driver_value": "0",
                 "miles":0,
                 "days":0,
                 "fuelcost":0,
@@ -28,18 +28,18 @@ const App = () => {
           ],
           "resources":[
              {
-                "resource_name":"3.5T Driver",
-                "resource_Value": "120",
+                "resource_name":"",
+                "resource_Value": "0",
                 "days":0,
                 "overnight": false,
-                "hours":0,
+                "hours":8,
                 "cost":0
              }
           ],
           "material":[
              {
-                "material":"Pk 1 Carton",
-                "materialValue": "1.5",
+                "material":"",
+                "materialValue": "0",
                 "hours":0,
                 "cost":0
              }
@@ -78,6 +78,160 @@ const App = () => {
     }
 
  });
+
+ const [adminData, setAdminData] = useState(
+   {
+      vehicleData: {
+          vehicleOptions: [
+              {
+                  name: "HGV",
+                  value: "200"
+              },
+              {
+                  name: "7.5 TON",
+                  value: "150"
+              },
+              {
+                  name: "3.5 TON",
+                  value: "100"
+              }
+  
+          ],
+          fuelAmount : 0.8
+      },
+  
+      resourceData: {
+          resourceOptions: [
+              {
+                  name: "HGV DRIVER",
+                  value: "20"
+              },
+              {
+                  name: "7.5 TON DRIVER",
+                  value: "20.1"
+              },
+              {
+                  name: "3.5 TON DRIVER",
+                  value: "17"
+              },
+              {
+                  name: "PORTER",
+                  value: "15"
+              }
+          ],
+          OverNightAmount : 45
+      },
+  
+      materialData: {
+          materialOptions: [
+              {
+                  name: "Pk 1 Carton",
+                  value: "1.5"
+              },
+              {
+                  name: "Pk 2 Carton",
+                  value: "1.8"
+              },
+              {
+                  name: "Wardrobe Carton",
+                  value: "7"
+              },
+              {
+                  name: "Ream of Paper",
+                  value: "12"
+              },
+              {
+                  name: "Bubble Blanket Roll",
+                  value: "80"
+              },
+              {
+                  name: "TV wrap",
+                  value: "7.5"
+              },
+              {
+                  name: "Picture wrap",
+                  value: "4"
+              },
+              {
+                  name: "Tape",
+                  value: "0.7"
+              },
+              {
+                  name: "Double Mattress Cover",
+                  value: "3.5"
+              },
+              {
+                  name: "Single Mattress Cover",
+                  value: "2.5"
+              }
+  
+          ]
+      },
+  
+      eurozoneData: {
+          eurozoneOptions: [
+              {
+                  name: "Zone 1 France: Tours, Orleans, Auxeres, Dijon",
+                  value: "5"
+              },
+              {
+                  name: "Zone 2 France: Lyon, Limoges, Clermont-Ferrand, Montpelier, Marseille",
+                  value: "7"
+              },
+              {
+                  name: "Zone 3 France Rennes, Nantes, Bordeaux, Toulouse, Perpignan",
+                  value: "7.5"
+              },
+              {
+                  name: "Zone 1 Germany:  Stuttgart, Frankfurt, Bonn, Dusseldorf, Koln, Dortmund",
+                  value: "6.5"
+              },
+              {
+                  name: "Zone 2 Germany:  Hamburg, Hannover, Bremen, Nurnberg, Munich",
+                  value: "7.1"
+              },
+              {
+                  name: "Zone 3 Germany:   Berlin, Dresden, Gera, Leipzig",
+                  value: "7.6"
+              },
+              {
+                  name: "Zone 1 Spain: Barcelona, Zaragoza, Bilbao",
+                  value: "7.2"
+              },
+              {
+                  name: "Zone 2 Spain: Madrid,Alicante, Al Maria, Malaga, Saville",
+                  value: "8"
+              },
+              {
+                  name: "Zone 3 Spain: ACaruna, Vigo, Gijon, Salamanca",
+                  value: "9.5"
+              },
+              {
+                  name: "Belgium",
+                  value: "4"
+              },
+              {
+                  name: "Austria",
+                  value: "8.5"
+              },
+              {
+                  name: "Luxembourg",
+                  value: "7.3"
+              },
+              {
+                  name: "Switzerland",
+                  value: "9"
+              },
+              {
+                  name: "Netherlands",
+                  value: "6.6"
+              },
+          ]
+      },
+  
+      markup: 20
+  }
+ );
  const [currentDataIndex, setCurrentDataIndex] = useState(0)
 
  useEffect(()=>{
@@ -107,14 +261,14 @@ const App = () => {
       <div className="row">
         <div className="col-lg-4 col-12">
           <DayTaskInputFieldset data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
-          <TimeZoneFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
+          <TimeZoneFieldset  eurozoneData={adminData?.eurozoneData} data={data} currentDataIndex={currentDataIndex} setData={setData} />
         </div>
         <div className="col-lg-5 col-12">
-        <VehicleInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
+        <VehicleInputFieldset vehicleData={adminData?.vehicleData}  data={data} currentDataIndex={currentDataIndex} setData={setData} />
 
-        <HumanResourcesInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
+        <HumanResourcesInputFieldset resourceData={adminData?.resourceData}  data={data} currentDataIndex={currentDataIndex} setData={setData} />
 
-        <MaterialsInputFieldset  data={data} currentDataIndex={currentDataIndex} setData={setData} />
+        <MaterialsInputFieldset materialData={adminData?.materialData} data={data} currentDataIndex={currentDataIndex} setData={setData} />
         </div>
         <div className="col-lg-3 col-12">
         <CostCalculationFieldset data={data} />
