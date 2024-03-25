@@ -110,6 +110,10 @@ const [newField, setNewField] = useState({
      });
   };
 
+  const calculatefuelCostSum = (day) => {
+    return day.drivers.reduce((sum, driver) => sum + driver.fuelcost, 0);
+  };
+
   const handleDateChange = (e, index) => {
     const newData = [...daysData];
     newData[index].date = e.target.value;
@@ -124,14 +128,25 @@ const [newField, setNewField] = useState({
 
   const handleRemoveField = (e, indexToRemove) => {
     e.stopPropagation(); // Prevent event propagation
-
-    if (daysData.length <= 1) {
+   if (daysData.length <= 1) {
       return; // Prevent removing the last field
     }
+    const newData = [...props.data.days];
+    let overallcost = {...props.data.costCalculation}
+    overallcost.other = overallcost.other - newData[indexToRemove].totalOtherCost
+    overallcost.VehicleTotalCost = overallcost.VehicleTotalCost - newData[indexToRemove].totalVehicleCost
+    overallcost.HumanTotalCost = overallcost.HumanTotalCost - newData[indexToRemove].totalResourceCost
+    overallcost.materialTotalCost =  overallcost.materialTotalCost - newData[indexToRemove].totalMaterialCost
+    overallcost.totalFualCost = overallcost.totalFualCost - calculatefuelCostSum(newData[indexToRemove]) 
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * 20) + totatcostcalculation; 
+
     props.setCurrentDataIndex(indexToRemove - 1)
     props.setData((prevData) => {
       const updatedDays = prevData.days.filter((day, index) => index !== indexToRemove);
-      return { ...prevData, days: updatedDays };
+      return { ...prevData, days: updatedDays, costCalculation: overallcost };
     });
   };
 

@@ -49,7 +49,7 @@ setLoader(true);
         <div className="mb-3 row">
           <label htmlFor="Fuel-Total-cost" className="col-3 col-form-label">Fuel</label>
           <div className="col-9">
-            <input type="text" readOnly id='Fuel-Total-cost' className="form-control" value={props.data.costCalculation?.totalFualCost} />
+            <input type="text" readOnly id='Fuel-Total-cost' className="form-control" value={props.data.costCalculation?.totalFualCost ? props.data.costCalculation.totalFualCost.toFixed(2) : ''} />
           </div>
         </div>
         <div className="mb-3 row">
@@ -75,7 +75,7 @@ setLoader(true);
         <div className="mb-3 row">
           <label htmlFor="Cost-Total-cost" className="col-3 col-form-label">Cost</label>
           <div className="col-9">
-            <input type="text" readOnly id='Cost-Total-cost' className="form-control" value={props.data.costCalculation.TotalCost} />
+            <input type="text" readOnly id='Cost-Total-cost' className="form-control" value={props.data.costCalculation.TotalCost ? props.data.costCalculation.TotalCost.toFixed(2) : ""} />
           </div>
         </div>
         <div className="mb-3 row">
@@ -94,7 +94,7 @@ setLoader(true);
         <div className="mb-3 row">
           <label htmlFor="Quote-Total-cost" className="col-3 col-form-label">Quote</label>
           <div className="col-9">
-            <input type="text" readOnly id='Quote-Total-cost' className="form-control" value={(props.data.costCalculation.Quatation)} />
+            <input type="text" readOnly id='Quote-Total-cost' className="form-control" value={(props.data.costCalculation.Quatation ? props.data.costCalculation.Quatation.toFixed(2) : "")} />
           </div>
         </div>
         <div className="actions my-4 d-flex justify-content-between">

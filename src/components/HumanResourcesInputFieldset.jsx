@@ -42,7 +42,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].resources[index].resource_name = e.target.options[e.target.selectedIndex].text;
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) + props.resourceData.OverNightAmount)  * +(newData[props.currentDataIndex].resources[index].hours);
+    newData[props.currentDataIndex].resources[index].cost = (+(e.target.value) * +(newData[props.currentDataIndex].resources[index].hours)) + props.resourceData.OverNightAmount;
     
     }else{
     newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].hours);
@@ -79,7 +79,7 @@ const calculateTotalHuman = (day) => {
     
     if(newData[props.currentDataIndex].resources[index].overnight){
     newData[props.currentDataIndex].resources[index].hours = newData[props.currentDataIndex].resources[index].hours;
-    newData[props.currentDataIndex].resources[index].cost = +(newData[props.currentDataIndex].resources[index].hours) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + props.resourceData.OverNightAmount);
+    newData[props.currentDataIndex].resources[index].cost = (+(newData[props.currentDataIndex].resources[index].hours) * +(newData[props.currentDataIndex].resources[index].resource_Value)) + props.resourceData.OverNightAmount;
     newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
     overallcost.HumanTotalCost = calculateTotalCost(newData);
     newData[props.currentDataIndex].totalResourceCost = calculateCostSum(newData[props.currentDataIndex]);
@@ -112,7 +112,7 @@ const calculateTotalHuman = (day) => {
     newData[props.currentDataIndex].resources[index].hours = e.target.valueAsNumber;
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-      newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * (+(newData[props.currentDataIndex].resources[index].resource_Value) + props.resourceData.OverNightAmount);
+      newData[props.currentDataIndex].resources[index].cost = ( +(e.target.value) * +(newData[props.currentDataIndex].resources[index].resource_Value)) + props.resourceData.OverNightAmount;
     
     }else{
       newData[props.currentDataIndex].resources[index].cost = +(e.target.value) * +(newData[props.currentDataIndex].resources[index].resource_Value);
