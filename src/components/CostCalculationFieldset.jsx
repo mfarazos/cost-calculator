@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 export default function CostCalculationFieldset(props) {
 const [loader, setLoader] = useState(false);
 async function submitForm(){
+
 setLoader(true);
   try {
     const params = new URLSearchParams(window.location.search);
@@ -36,7 +37,17 @@ setLoader(true);
     icon: "error",
   });
  }
-}  
+}
+
+function handlechangeMarkup(e){
+  let overallcost = {...props.data.costCalculation}
+  overallcost.markep = e.target.valueAsNumber;
+  let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+  let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+  overallcost.TotalCost = totatcostcalculation;
+  overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * overallcost.markep) + totatcostcalculation;
+  props.setData({ ...props.data, costCalculation: overallcost   });
+}
   return (
     <fieldset className='row p-2 border border-1 rounded'>
       <div className="col-12">
@@ -81,7 +92,7 @@ setLoader(true);
         <div className="mb-3 row">
           <label htmlFor="Markup-Total-cost" className="col-3 col-form-label">Markup</label>
           <div className="col-9">
-            <input min={0} max={100} type="number" id='Markup-Total-cost' className="form-control" value={props.data.costCalculation.markep} />
+            <input min={0} max={100} type="number" id='Markup-Total-cost' className="form-control" onChange={(e) => handlechangeMarkup(e)}  value={props.data.costCalculation.markep} />
           </div>
         </div>
         <div className="mb-3 row">

@@ -116,7 +116,7 @@ export default function HomePage({ adminData }) {
                     <MaterialsInputFieldset materialData={adminData?.materialData} data={data} currentDataIndex={currentDataIndex} setData={setData} />
                 </div>
                 <div className="col-lg-3 col-12">
-                    <CostCalculationFieldset data={data} />
+                    <CostCalculationFieldset data={data} setData={setData} />
                 </div>
                 <div className="col-12">
                     <CostTypeInputFieldset data={data} currentDataIndex={currentDataIndex} setData={setData} />
