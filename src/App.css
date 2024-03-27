@@ -1,3 +1,6 @@
+:root {
+  --color-primary-custome: rgb(0,78,155);
+}
 input[type=checkbox]
 {
   cursor: pointer;
@@ -10,4 +13,17 @@ input[type=checkbox]
 
 .cursor-pointer {
   cursor: pointer !important;
+}
+
+.bg-custom-color {
+  background-color: var(--color-primary-custome) !important;
+}
+
+.btn.btn-outline-custom {
+  border: 1px solid var(--color-primary-custome);
+  color: var(--color-primary-custome);
+}
+.btn.btn-outline-custom:hover {
+  background-color: var(--color-primary-custome);
+  color: #fff;
 }

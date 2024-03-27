@@ -101,7 +101,7 @@ setLoader(true);
           <button type="button" className="btn btn-primary fs-4 fw-bolder">Σ</button>
           <button type="button" onClick={submitForm} className="btn btn-secondary px-5 fw-bold">
           
-          {loader ?  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : <span role="status">Accept</span>}
+          {loader ?  <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : <span role="status">Accept</span>}
             
             </button>
         </div>
