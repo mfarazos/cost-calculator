@@ -1,8 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
 import LogoImage from '../../assets/images/movinghomeLogo.jpg';
-
-
+import axios from 'axios';
+import Swal from "sweetalert2";
 export default function Login({setIsUserLoggedIn}) {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    
+    const handleLogin = async (e) => {
+        e.preventDefault();
+    
+        try {
+           
+
+            const response = await axios.post('https://leads.movinghomecompany.com/costingapp/Adminlogin', { email: email, password: password });
+            console.log(response.data.success);
+            if(response.data.success){
+                Swal.fire({
+                    title: 'success',
+                    text: "Sucessfuly Login Your Account",
+                    icon: "success",
+                  });
+                setIsUserLoggedIn(true);
+            }else{
+                Swal.fire({
+                    title: 'error',
+                    text: "Incorrect Email Or Password",
+                    icon: "error",
+                  });
+            }
+
+            
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                title: 'error',
+                text: error,
+                icon: "error",
+              });
+        }
+    }
     return (
         <div className="container">
             <div className="row justify-content-center mt-5">
@@ -15,14 +51,14 @@ export default function Login({setIsUserLoggedIn}) {
                             <form>
                                 <div className="mb-4">
                                     <label for="username" className="form-label">Email</label>
-                                    <input type="text" className="form-control" id="username" />
+                                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" id="email" />
                                 </div>
                                 <div className="mb-4">
                                     <label for="password" className="form-label">Password</label>
-                                    <input type="password" className="form-control" id="password" />
+                                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" id="password" />
                                 </div>
                                 <div className="d-grid">
-                                    <button type="submit" className="btn bg-custom-color text-light" onClick={()=>{setIsUserLoggedIn(true)}}>Login</button>
+                                    <button type="submit" className="btn bg-custom-color text-light" onClick={(e)=>{handleLogin(e)}}>Login</button>
                                 </div>
                             </form>
                         </div>

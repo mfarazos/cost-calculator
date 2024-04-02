@@ -80,6 +80,7 @@ export default function HomePage({ adminData }) {
      const [currentDataIndex, setCurrentDataIndex] = useState(0)
     
      useEffect(()=>{
+      console.log("getAdmin Data",adminData);
        const params = new URLSearchParams(window.location.search);
         const dealId = params.get('DealId');
         if(!dealId){
@@ -106,7 +107,7 @@ export default function HomePage({ adminData }) {
             <div className="row">
                 <div className="col-lg-4 col-12">
                     <DayTaskInputFieldset data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
-                    <TimeZoneFieldset eurozoneData={adminData?.eurozoneData} data={data} currentDataIndex={currentDataIndex} setData={setData} />
+                    {<TimeZoneFieldset eurozoneData={adminData?.eurozoneData} data={data} currentDataIndex={currentDataIndex} setData={setData} />}
                 </div>
                 <div className="col-lg-5 col-12">
                     <VehicleInputFieldset vehicleData={adminData?.vehicleData} data={data} currentDataIndex={currentDataIndex} setData={setData} />

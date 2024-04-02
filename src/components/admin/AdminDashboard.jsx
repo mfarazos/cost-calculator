@@ -1,16 +1,47 @@
 import React from 'react';
 import { VehicleAdminFieldset, MaterialAdminFieldset, ResourceAdminFieldset, ZoneAdminFieldset ,OtherCostAdminFieldset } from '../admin';
-
+import axios from 'axios';
+import Swal from "sweetalert2";
 
 export default function AdminDashboard({ adminData, setAdminData }) {
-  console.log("adminData", adminData)
+ 
+
+
+  const handleSaveData = async () => {
+    console.log("adminData", adminData)
+
+    try {
+       
+
+        const response = await axios.post('https://leads.movinghomecompany.com/costingapp/insertAdminFormData', { settings: adminData });
+        console.log(response.data.success);
+        if(response.data.success){
+            Swal.fire({
+                title: 'success',
+                text: "Sucessfuly Submit Your Data",
+                icon: "success",
+              });
+            
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+        Swal.fire({
+            title: 'error',
+            text: error,
+            icon: "error",
+          });
+    }
+}
+
   return (
     <>
       <nav className="navbar sticky-top navbar-light bg-light">
         <div className="container">
           <h1 className="navbar-brand ms-2">Data Dashboard</h1>
           <div>
-            <button className="btn btn-outline-custom px-4 me-2" type="button">Save Data</button>
+            <button className="btn btn-outline-custom px-4 me-2" onClick={handleSaveData} type="button">Save Data</button>
           </div>
         </div>
       </nav>
