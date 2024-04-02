@@ -170,7 +170,13 @@ const [newField, setNewField] = useState({
           </div>
           <div className="col-7 pe-0">
             <p className='w-100 text-start mb-1'>Task</p>
-            <input type="text" className="form-control mb-3" value={item.task} onChange={(e) => handleTaskChange(e, index)} />
+            <select className="form-select mb-3" aria-label="Select Task" value={item.task} onChange={(e) => handleTaskChange(e, index)}>
+              <option disabled value="" className='d-none'></option>
+              {props?.taskData?.taskDataOptions.map((item, innerIndex)=>(
+                <option style={{whiteSpace: "initial"}} value={item.name} index={innerIndex}>{item.name}</option>
+              ))}
+            </select>
+            {/* <input type="text" className="form-control mb-3" value={item.task} onChange={(e) => handleTaskChange(e, index)} /> */}
           </div>
           <div className="col-1 p-0">
           <p className='w-100 text-start mb-1 invisible'>Remove</p>

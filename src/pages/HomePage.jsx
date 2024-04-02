@@ -106,7 +106,7 @@ export default function HomePage({ adminData }) {
         <div className="container my-4">
             <div className="row">
                 <div className="col-lg-4 col-12">
-                    <DayTaskInputFieldset data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
+                    <DayTaskInputFieldset taskData={adminData?.taskData} data={data} setData={setData} currentDataIndex={currentDataIndex} setCurrentDataIndex={setCurrentDataIndex} />
                     {<TimeZoneFieldset eurozoneData={adminData?.eurozoneData} data={data} currentDataIndex={currentDataIndex} setData={setData} />}
                 </div>
                 <div className="col-lg-5 col-12">
@@ -120,7 +120,7 @@ export default function HomePage({ adminData }) {
                     <CostCalculationFieldset data={data} setData={setData} />
                 </div>
                 <div className="col-12">
-                    <CostTypeInputFieldset data={data} currentDataIndex={currentDataIndex} setData={setData} />
+                    <CostTypeInputFieldset otherCostData={adminData?.otherCosts} data={data} currentDataIndex={currentDataIndex} setData={setData} />
                 </div>
             </div>
         </div>

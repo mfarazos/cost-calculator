@@ -1,5 +1,5 @@
 import React from 'react';
-import { VehicleAdminFieldset, MaterialAdminFieldset, ResourceAdminFieldset, ZoneAdminFieldset ,OtherCostAdminFieldset } from '../admin';
+import { VehicleAdminFieldset, MaterialAdminFieldset, ResourceAdminFieldset, ZoneAdminFieldset ,OtherCostAdminFieldset, TasksAdminFieldset } from '../admin';
 import axios from 'axios';
 import Swal from "sweetalert2";
 
@@ -49,15 +49,16 @@ export default function AdminDashboard({ adminData, setAdminData }) {
       <div className="container my-4">
         <div className="row">
           <div className="col-lg-4 col-12">
-            <VehicleAdminFieldset data={adminData?.vehicleData} setAdminData={setAdminData} />
-            <ResourceAdminFieldset data={adminData?.resourceData} setAdminData={setAdminData} />
+            <TasksAdminFieldset data={adminData?.taskData} setAdminData={setAdminData} />
+            <ZoneAdminFieldset data={adminData?.eurozoneData} setAdminData={setAdminData} />
           </div>
           <div className="col-lg-4 col-12">
-            <MaterialAdminFieldset data={adminData?.materialData} setAdminData={setAdminData} />
+            <VehicleAdminFieldset data={adminData?.vehicleData} setAdminData={setAdminData} />
+            <ResourceAdminFieldset data={adminData?.resourceData} setAdminData={setAdminData} />
             <OtherCostAdminFieldset data={adminData?.otherCosts} setAdminData={setAdminData}  />
           </div>
           <div className="col-lg-4 col-12">
-            <ZoneAdminFieldset data={adminData?.eurozoneData} setAdminData={setAdminData} />
+            <MaterialAdminFieldset data={adminData?.materialData} setAdminData={setAdminData} />
           </div>
         </div>
       </div>
