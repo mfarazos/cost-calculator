@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 export default function VehicleAdminFieldset({ data = [], setAdminData }) {
     const [newField, setNewField] = useState({ name: "", value: "" })
-
+console.log("data", data);
     const handleAddField = () => {
         setAdminData((prevData) => {
             return { ...prevData, otherCosts: { ...prevData?.otherCosts, otherCostsOptions: [...prevData?.otherCosts?.otherCostsOptions, newField] } }
@@ -29,14 +29,19 @@ export default function VehicleAdminFieldset({ data = [], setAdminData }) {
             </h5>
             <div className='card-body'>
                 <div className="row">
-                    <div className="col-12 pe-0">
+                    <div className="col-6 pe-0">
                         <p className='w-100 text-start mb-1'>Cost Name</p>
                     </div>
+                    <div className="col-5 pe-0">
+                        <p className='w-100 text-start mb-1'>Cost value</p></div>
                 </div>
                 {data?.otherCostsOptions.map((item, index) =>
                     <div className="row" key={index}>
-                        <div className="col-11 pe-0">
+                        <div className="col-6 pe-0">
                             <input type="text" className="form-control mb-3" value={item?.name} onChange={(e) => handleUpdateField(index, 'name', e.target.value)} />
+                        </div>
+                        <div className="col-5 pe-0">
+                            <input type="number" min={0} className="form-control mb-3" value={item?.value} onChange={(e) => handleUpdateField(index, 'value', e.target.value)} />
                         </div>
                         <div className="col-1 p-0">
                             <button className="border-0 bg-transparent mb-3 form-control px-0" onClick={() => { handleRemoveField(index) }} title='Remove This Field'><AiOutlineClose /></button>

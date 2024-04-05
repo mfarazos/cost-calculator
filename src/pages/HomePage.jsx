@@ -72,7 +72,7 @@ export default function HomePage({ adminData }) {
         "ZonePrice": {
           "selectedZone":"",
           "pricepercubicfeed":"",
-          "numberofcubicfeed":0,
+          "numberofcubicfeed":100,
           "TotalCost":0,
         }
     

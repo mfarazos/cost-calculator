@@ -12,6 +12,8 @@ export default function CostTypeInputFieldset(props) {
         cost:0,
         withmarginCost: 0
      });
+
+     console.log(props)
   const OtherData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.others) ? props?.data.days[props.currentDataIndex]?.others : [];
 
 
@@ -45,12 +47,27 @@ export default function CostTypeInputFieldset(props) {
      });
   };
 
+  // const handleOtherserviceChange = (e, index) => {
+  //   const newData = [...props.data.days];
+  //    newData[props.currentDataIndex].others[index].otherService = e.target.options[e.target.selectedIndex].text;
+  //    newData[props.currentDataIndex].others[index].otherserviceValue = e.target.value
+  //    props.setData({ ...props.data, days: newData });
+  // };
+
   const handleOtherserviceChange = (e, index) => {
     const newData = [...props.data.days];
-     newData[props.currentDataIndex].others[index].otherService = e.target.options[e.target.selectedIndex].text;
-     newData[props.currentDataIndex].others[index].otherserviceValue = e.target.value
-     props.setData({ ...props.data, days: newData });
+    const selectedOption = e.target.value;
+    const selectedOptionData = props.otherCostData.otherCostsOptions.find(option => option.name === selectedOption);
+  
+    if (selectedOptionData) {
+      newData[props.currentDataIndex].others[index].otherService = selectedOption;
+      newData[props.currentDataIndex].others[index].otherserviceValue = selectedOptionData.value;
+      newData[props.currentDataIndex].others[index].cost = selectedOptionData.value;
+  
+      props.setData({ ...props.data, days: newData });
+    }
   };
+  
 
   const handleChangeCurrency = (e, index) => {
     const newData = [...props.data.days];
