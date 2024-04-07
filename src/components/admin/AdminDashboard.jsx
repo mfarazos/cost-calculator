@@ -50,7 +50,7 @@ export default function AdminDashboard({ adminData, setAdminData }) {
         <div className="row">
           <div className="col-lg-4 col-12">
             <TasksAdminFieldset data={adminData?.taskData} setAdminData={setAdminData} />
-            <ZoneAdminFieldset data={adminData?.eurozoneData} setAdminData={setAdminData} />
+            
           </div>
           <div className="col-lg-4 col-12">
             <VehicleAdminFieldset data={adminData?.vehicleData} setAdminData={setAdminData} />
@@ -59,6 +59,7 @@ export default function AdminDashboard({ adminData, setAdminData }) {
           </div>
           <div className="col-lg-4 col-12">
             <MaterialAdminFieldset data={adminData?.materialData} setAdminData={setAdminData} />
+            <ZoneAdminFieldset data={adminData?.eurozoneData} setAdminData={setAdminData} />
           </div>
         </div>
       </div>

@@ -56,16 +56,30 @@ export default function CostTypeInputFieldset(props) {
 
   const handleOtherserviceChange = (e, index) => {
     const newData = [...props.data.days];
+    let overallcost = {...props.data.costCalculation}
+    
     const selectedOption = e.target.value;
     const selectedOptionData = props.otherCostData.otherCostsOptions.find(option => option.name === selectedOption);
   
     if (selectedOptionData) {
       newData[props.currentDataIndex].others[index].otherService = selectedOption;
       newData[props.currentDataIndex].others[index].otherserviceValue = selectedOptionData.value;
-      newData[props.currentDataIndex].others[index].cost = selectedOptionData.value;
+      newData[props.currentDataIndex].others[index].cost = +selectedOptionData.value;
   
-      props.setData({ ...props.data, days: newData });
+      let margintpercentage = ((+(selectedOptionData.value) / 100) * newData[props.currentDataIndex].others[index].margin )
+    
+      newData[props.currentDataIndex].others[index].withmarginCost = +(selectedOptionData.value) + margintpercentage
+    newData[props.currentDataIndex].totalOtherCost = calculateCostSum(newData[props.currentDataIndex])
+    overallcost.other = calculateTotalCost(newData);
+    
+    let totatcostcalculation = props.data.ZonePrice.TotalCost + overallcost.other + overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    let totatcostcalculationwithmarup = overallcost.VehicleTotalCost + overallcost.HumanTotalCost + overallcost.materialTotalCost + overallcost.totalFualCost;
+    overallcost.TotalCost = totatcostcalculation;
+    overallcost.Quatation = ((totatcostcalculationwithmarup / 100) * overallcost.markep) + totatcostcalculation;
+    props.setData({ ...props.data, days: newData, costCalculation: overallcost   });
+
     }
+
   };
   
 
@@ -147,7 +161,7 @@ export default function CostTypeInputFieldset(props) {
             <div className="col-3 mb-5 px-0">
                 <p className='w-100 text-start mb-1'>Cost Type</p>
                 {OtherData.map((item, index) => (
-                <select className="form-select mb-3" aria-label="Select Vehicle" key={index} value={item?.driver_value} onChange={(e) => handleOtherserviceChange(e, index)}>
+                <select className="form-select mb-3" aria-label="Select Vehicle" key={index} value={item?.otherService} onChange={(e) => handleOtherserviceChange(e, index)}>
                     <option disabled selected value className='d-none'></option>
                     {props?.otherCostData?.otherCostsOptions.map((item, innerIndex)=> (
                       <option value={item.name} index={innerIndex}>{item.name}</option>
