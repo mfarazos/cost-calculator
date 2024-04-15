@@ -2,8 +2,8 @@
   "name": "cost-calculator",
   "version": "0.1.0",
   "private": true,
-  "//": "http://leads.movinghomecompany.com/costing_app",
-  "homepage": "http://leads.movinghomecompany.com/costing_admin_app",
+  "homepage": "http://leads.movinghomecompany.com/costing_app",
+  "//": "http://leads.movinghomecompany.com/costing_admin_app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

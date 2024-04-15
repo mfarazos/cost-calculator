@@ -162,7 +162,7 @@ export default function CostTypeInputFieldset(props) {
                 <p className='w-100 text-start mb-1'>Cost Type</p>
                 {OtherData.map((item, index) => (
                 <select className="form-select mb-3" aria-label="Select Vehicle" key={index} value={item?.otherService} onChange={(e) => handleOtherserviceChange(e, index)}>
-                    <option disabled selected value className='d-none'></option>
+                    <option disabled selected value="" className='d-none'></option>
                     {props?.otherCostData?.otherCostsOptions.map((item, innerIndex)=> (
                       <option value={item.name} index={innerIndex}>{item.name}</option>
                     ))}
