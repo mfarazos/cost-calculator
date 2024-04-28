@@ -78,7 +78,7 @@ const calculateTotalHuman = (day) => {
     let overallcost = {...props.data.costCalculation}
     
     if(newData[props.currentDataIndex].resources[index].overnight){
-    newData[props.currentDataIndex].resources[index].hours = newData[props.currentDataIndex].resources[index].hours;
+    // newData[props.currentDataIndex].resources[index].hours = newData[props.currentDataIndex].resources[index].hours;
     newData[props.currentDataIndex].resources[index].cost = (+(newData[props.currentDataIndex].resources[index].hours) * +(newData[props.currentDataIndex].resources[index].resource_Value)) + props.resourceData.OverNightAmount;
     newData[props.currentDataIndex].totalResource = calculateTotalHuman(newData[props.currentDataIndex]);
     overallcost.HumanTotalCost = calculateTotalCost(newData);

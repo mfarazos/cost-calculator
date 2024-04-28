@@ -80,7 +80,6 @@ export default function HomePage({ adminData }) {
      const [currentDataIndex, setCurrentDataIndex] = useState(0)
     
      useEffect(()=>{
-      console.log("getAdmin Data",adminData);
        const params = new URLSearchParams(window.location.search);
         const dealId = params.get('DealId');
         if(!dealId){
