@@ -74,7 +74,7 @@ const calculateTotalfuelCost = (days) => {
   };
 
   const handledaysChange = (e, index) => {
-    let val =  e.target.valueAsNumber
+    // let val =  e.target.valueAsNumber
     let overallcost = {...props.data.costCalculation}
     const newData = [...props.data.days];
     newData[props.currentDataIndex].drivers[index].days = e.target.valueAsNumber;
