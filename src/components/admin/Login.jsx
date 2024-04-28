@@ -12,7 +12,7 @@ export default function Login({setIsUserLoggedIn}) {
         try {
            
 
-            const response = await axios.post('https://leads.movinghomecompany.com/costingapp/Adminlogin', { email: email, password: password });
+            const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/Adminlogin', { email: email, password: password });
             console.log(response.data.success);
             if(response.data.success){
                 Swal.fire({

@@ -19,7 +19,7 @@ setLoader(true);
     
       return;
     }
-    const response = await axios.post('https://leads.movinghomecompany.com/costingapp/insertFormData', { DealId: dealId, formData: props.data });
+    const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/insertFormData', { DealId: dealId, formData: props.data });
     if(response.data){
       
       Swal.fire({

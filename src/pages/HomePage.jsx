@@ -89,7 +89,7 @@ export default function HomePage({ adminData }) {
        (async () => {
           try {
              console.log("params", dealId);
-             const response = await axios.post('https://leads.movinghomecompany.com/costingapp/GetFormData', { DealId: dealId});
+             const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/GetFormData', { DealId: dealId});
              console.log(response.data.success);
              if(response.data.success){
                 setData(response.data.data);

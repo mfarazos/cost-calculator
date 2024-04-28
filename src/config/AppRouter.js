@@ -12,7 +12,7 @@ export default function AppRouter() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://leads.movinghomecompany.com/costingapp/getAdminFormData');
+                const response = await axios.get('https://apps.leadsmovinghomecompany.com/costingapp/getAdminFormData');
                 setAdminData(response.data.data);
                 setIsGetData(true);
                 

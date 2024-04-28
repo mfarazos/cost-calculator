@@ -13,7 +13,7 @@ export default function AdminDashboard({ adminData, setAdminData }) {
     try {
        
 
-        const response = await axios.post('https://leads.movinghomecompany.com/costingapp/insertAdminFormData', { settings: adminData });
+        const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/insertAdminFormData', { settings: adminData });
         console.log(response.data.success);
         if(response.data.success){
             Swal.fire({
