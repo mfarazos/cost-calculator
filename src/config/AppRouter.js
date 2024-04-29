@@ -23,6 +23,10 @@ export default function AppRouter() {
         fetchData();
     }, []);
 
+    useEffect(()=>{
+        console.log("adminData", adminData);
+    }, [adminData])
+
     if (error) {
         return <div>Error: {error.message}</div>;
     }
@@ -37,7 +41,7 @@ export default function AppRouter() {
             <Routes>
                 {isgetData && <Route path='/costing_app/' exact element={<HomePage adminData={adminData}/>}  />}
                 {isgetData && <Route path='/costing_admin_app/' exact element={<Admin adminData={adminData} setAdminData={setAdminData}/>}  />}
-                <Route path='/costing_schedular/' exact element={<Schedular />}/>
+                <Route path='/costing_schedular/' exact element={<Schedular adminData={adminData} />}/>
             </Routes>
         </Router>
     );

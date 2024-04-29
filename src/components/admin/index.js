@@ -6,3 +6,6 @@ export {default as ResourceAdminFieldset} from './ResourceAdminFieldset';
 export {default as ZoneAdminFieldset} from './ZoneAdminFieldset';
 export {default as OtherCostAdminFieldset} from './OtherCostAdminFieldset';
 export {default as TasksAdminFieldset} from './TasksAdminFieldset';
+export {default as ScheduleVehicleFieldset} from './ScheduleVehicleFieldset';
+export {default as ScheduleCrewFieldset} from './ScheduleCrewFieldset';
+export {default as ScheduleFormanFieldset} from './ScheduleFormanFieldset';

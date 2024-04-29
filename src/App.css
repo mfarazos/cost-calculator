@@ -15,8 +15,15 @@ input[type=checkbox]
   cursor: pointer !important;
 }
 
-.bg-custom-color {
+.bg-custom-color,
+.nav-link.active {
   background-color: var(--color-primary-custome) !important;
+}
+.nav .nav-link {
+  color: var(--color-primary-custome);
+}
+.tab-content>.active {
+  display: flex !important;
 }
 
 .btn.btn-outline-custom {
