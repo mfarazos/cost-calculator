@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 
 export default function Schedular({ adminData }) {
@@ -46,6 +47,34 @@ export default function Schedular({ adminData }) {
         setScheduleData((prevData) => {
             return [...prevData, newField]
         })
+    }
+
+    const handleschedule = async () => {
+        console.log("adminData", scheduleData)
+
+    try {
+
+
+      const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/addDate', { scheduleData: scheduleData });
+      //console.log(response.data.success);
+      if (response) {
+        Swal.fire({
+          title: 'success',
+          text: "Sucessfuly Schedule Your Data",
+          icon: "success",
+        });
+
+      }
+
+
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: 'error',
+        text: error,
+        icon: "error",
+      });
+    }
     }
     // const handleDate = (index, newDate) => {
     //     setScheduleData(prevData => {
@@ -228,7 +257,7 @@ export default function Schedular({ adminData }) {
                 </div>
                 <div className="col-12 d-flex align-items-center justify-content-center gap-2">
                     <button className='btn btn-outline-custom px-4 py-1' onClick={handleAddField}><span className='px-2'>Add Day</span></button>
-                    <button className='btn btn-primary bg-custom-color px-4 py-1'><span className='px-2'>Schedule</span></button>
+                    <button className='btn btn-primary bg-custom-color px-4 py-1' onClick={handleschedule}><span className=' px-2'>Schedule</span></button>
                 </div>
             </div>
         </div>
