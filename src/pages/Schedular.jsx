@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { TextField, MenuItem, InputLabel, FormControl, Select, OutlinedInput } from '@mui/material';
 
 
 export default function Schedular({ adminData }) {
     const [scheduleData, setScheduleData] = useState([]);
     const [newField, setNewField] = useState({})
-
-    useEffect(() => {
-        console.log("scheduleData", scheduleData);
-    }, [scheduleData])
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -34,8 +31,8 @@ export default function Schedular({ adminData }) {
 
     }, [])
 
-    useEffect(()=> {
-        setNewField({ ...scheduleData[0], date: "", task: "", vehicle: "", crew: "", foreman: ""});
+    useEffect(() => {
+        setNewField({ ...scheduleData[0], date: "", task: "", vehicle: "", crew: [], foreman: "" });
     }, [scheduleData])
 
     const handleRemoveField = (indexToRemove) => {
@@ -52,40 +49,33 @@ export default function Schedular({ adminData }) {
     const handleschedule = async () => {
         console.log("adminData", scheduleData)
 
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const dealId = params.get('deal_id');
-        if (!dealId) {
-            return;
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const dealId = params.get('deal_id');
+            if (!dealId) {
+                return;
+            }
+            const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/addDate', { dealId: dealId, scheduleData: scheduleData });
+            //console.log(response.data.success);
+            if (response) {
+                Swal.fire({
+                    title: 'success',
+                    text: "Sucessfuly Schedule Your Data",
+                    icon: "success",
+                });
+
+            }
+
+
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+                title: 'error',
+                text: error,
+                icon: "error",
+            });
         }
-      const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/addDate', {dealId: dealId, scheduleData: scheduleData });
-      //console.log(response.data.success);
-      if (response) {
-        Swal.fire({
-          title: 'success',
-          text: "Sucessfuly Schedule Your Data",
-          icon: "success",
-        });
-
-      }
-
-
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: 'error',
-        text: error,
-        icon: "error",
-      });
     }
-    }
-    // const handleDate = (index, newDate) => {
-    //     setScheduleData(prevData => {
-    //         const updatedSchedule = [...prevData];
-    //         updatedSchedule[index] = { ...updatedSchedule[index], date: newDate };
-    //         return updatedSchedule;
-    //     });
-    // };
 
     const handleFieldChange = (index, fieldName, newValue) => {
         setScheduleData(prevData => {
@@ -95,7 +85,7 @@ export default function Schedular({ adminData }) {
         });
     };
     return (
-        <>        <div className="container my-4">
+        <div className="container my-4">
             <div className="row">
                 <div className="col-12 mb-3">
                     <fieldset className='card'>
@@ -106,83 +96,76 @@ export default function Schedular({ adminData }) {
                     {scheduleData?.map((item, index) => (
                         <fieldset className='card border-top-0' key={index}>
                             <div className="card-body">
-                                <div className="row">
-                                    <div className="col-1 pe-0">
-                                        <p className='w-100 text-start mb-1'></p>
-                                    </div>
-                                    <div className="col-10">
-                                        <div className="row">
-                                            <div className="col-2 px-0">
-                                                <p className='w-100 text-start mb-1'>Date/Time</p>
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Client Name</p>
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Task</p>
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Volume</p>
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Vehicle</p>
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Crew</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-1 pe-0">
-                                        <p className='w-100 text-start mb-1'></p>
-                                    </div>
-                                </div>
-                                <div className="row">
+                                <div className="row mb-2">
                                     <div className="col-1 pe-0">
                                         <p className='w-100 text-start mb-1'>day {index + 1}</p>
                                     </div>
                                     <div className="col-10">
                                         <div className="row">
-                                            <div className="col-2 px-0">
-                                                <input type="datetime-local" className="form-control mb-3" value={item?.date} onChange={(e) => handleFieldChange(index, 'date', e.target.value)} />
+                                            <div className="col-6 col-lg-2 px-0">
+                                                <TextField type='datetime-local' InputLabelProps={{ shrink: true }} size="small" className='w-100' label="Date/Time" value={item?.date} onChange={(e) => handleFieldChange(index, 'date', e.target.value)} />
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <input type="text" className="form-control mb-3" value={item?.clientName} readOnly />
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="Client Name" InputLabelProps={{ shrink: true }} size="small" value={item?.clientName} readOnly />
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <select className='form-select mb-3' aria-label='Select Task' value={item?.task} onChange={(e) => handleFieldChange(index, 'task', e.target.value)}>
-                                                    <option disabled="" value="0" className="d-none"></option>
-                                                    {(!adminData?.taskData?.taskDataOptions.find((taskItem) => taskItem.name === item.task) && item.task !== "" )&& (
-                                                        <option value={item.task}>{item.task}</option>
-                                                    )}
-                                                    {adminData?.taskData?.taskDataOptions.map((item, innerIndex)=>(
-                                                        <option style={{whiteSpace: "initial"}} value={item?.name} index={innerIndex}>{item?.name}</option>
-                                                    ))}
-                                                </select>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <FormControl className='w-100' size="small">
+                                                    <InputLabel id="label-vehicle" shrink={true}>Task</InputLabel>
+                                                    <Select
+                                                        labelId="simple-select-task-label"
+                                                        id="simple-select-task"
+                                                        value={item?.task}
+                                                        onChange={(e) => handleFieldChange(index, 'task', e.target.value)}
+                                                        input={<OutlinedInput label="Task" notched={true} />}>
+                                                        {(!adminData?.taskData?.taskDataOptions.find((taskItem) => taskItem.name === item.task) && item.task !== "") && (
+                                                            <MenuItem value={item.task}>{item.task}</MenuItem>
+                                                        )}
+                                                        {adminData?.taskData?.taskDataOptions.map((item, innerIndex) => (
+                                                            <MenuItem value={item?.name} index={innerIndex}>{item?.name}</MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <input type="text" className="form-control mb-3" value={item?.volume} readOnly />
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="Volume" InputLabelProps={{ shrink: true }} size="small" value={item?.volume} readOnly />
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <select className='form-select mb-3' aria-label='Select Vehicle' value={item?.vehicle} onChange={(e) => handleFieldChange(index, 'vehicle', e.target.value)}>
-                                                    <option disabled="" value="" className="d-none"></option>
-                                                    {(!adminData?.scheduleVehicleData?.scheduleVehicleDataOptions.find((Item) => Item.name === item.vehicle) && item.vehicle !=="" ) && (
-                                                        <option value={item.vehicle}>{item.vehicle}</option>
-                                                    )}
-                                                    {adminData?.scheduleVehicleData?.scheduleVehicleDataOptions.map((item, innerIndex)=>(
-                                                        <option style={{whiteSpace: "initial"}} value={item?.name} index={innerIndex}>{item?.name}</option>
-                                                    ))}
-                                                </select>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <FormControl className='w-100' size="small">
+                                                    <InputLabel id="label-vehicle" shrink={true}>Vehicle</InputLabel>
+                                                    <Select
+                                                        labelId="simple-select-vehicle-label"
+                                                        id="simple-select-vehicle"
+                                                        value={item?.vehicle}
+                                                        onChange={(e) => handleFieldChange(index, 'vehicle', e.target.value)}
+                                                        input={<OutlinedInput label="Vehicle" notched={true} />}
+                                                    >
+                                                        {(!adminData?.scheduleVehicleData?.scheduleVehicleDataOptions.find((Item) => Item.name === item.vehicle) && item.vehicle !== "") && (
+                                                            <MenuItem value={item.vehicle}>{item.vehicle}</MenuItem>
+                                                        )}
+                                                        {adminData?.scheduleVehicleData?.scheduleVehicleDataOptions.map((item, innerIndex) => (
+                                                            <MenuItem value={item?.name} index={innerIndex}>{item?.name}</MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <select className='form-select mb-3' aria-label='Select Crew' value={item?.crew} onChange={(e) => handleFieldChange(index, 'crew', e.target.value)}>
-                                                    <option disabled="" value="0" className="d-none"></option>
-                                                    {(!adminData?.scheduleCrewData?.scheduleCrewDataOptions.find((Item) => Item.name === item.crew) && item.crew !=="" ) && (
-                                                        <option value={item.crew}>{item.crew}</option>
-                                                    )}
-                                                    {adminData?.scheduleCrewData?.scheduleCrewDataOptions.map((item, innerIndex)=>(
-                                                        <option style={{whiteSpace: "initial"}} value={item?.name} index={innerIndex}>{item?.name}</option>
-                                                    ))}
-                                                </select>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <FormControl className='w-100' size="small">
+                                                    <InputLabel id="label-crew" shrink={true}>Crew</InputLabel>
+
+                                                    <Select
+                                                        labelId="demo-multiple-name-label"
+                                                        id="demo-multiple-name"
+                                                        multiple
+                                                        value={item?.crew}
+                                                        onChange={(e) => handleFieldChange(index, 'crew', e.target.value)}
+                                                        input={<OutlinedInput label="Crew" notched={true} />}
+                                                    >
+                                                        {adminData?.scheduleCrewData?.scheduleCrewDataOptions.map((item, innerIndex) => (
+                                                            <MenuItem value={item?.name} index={innerIndex}>{item?.name}</MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
                                             </div>
                                         </div>
                                     </div>
@@ -192,62 +175,42 @@ export default function Schedular({ adminData }) {
                                         )}
                                     </div>
                                 </div>
+
                                 <div className="row">
-                                    <div className="col-1 pe-0">
-                                        <p className='w-100 text-start mb-1'></p>
+                                    <div className="col-1 d-lg-block d-none pe-0">
                                     </div>
                                     <div className="col-10">
                                         <div className="row">
-
-                                            <div className="col-2 px-0">
-                                                <p className='w-100 text-start mb-1'>Forman</p>
+                                            <div className="col-6 col-lg-2 px-0">
+                                                <FormControl className='w-100' size="small">
+                                                    <InputLabel id="label-forman" shrink={true}>Forman</InputLabel>
+                                                    <Select
+                                                        labelId="simple-select-forman-label"
+                                                        id="simple-select-forman"
+                                                        value={item?.foreman}
+                                                        onChange={(e) => handleFieldChange(index, 'foreman', e.target.value)}
+                                                        input={<OutlinedInput label="Foreman" notched={true} />}
+                                                    >
+                                                        {(!adminData?.scheduleFormanData?.scheduleFormanDataOptions.find((Item) => Item.name === item.foreman) && item.foreman !== "") && (
+                                                            <MenuItem value={item.foreman}>{item.foreman}</MenuItem>
+                                                        )}
+                                                        {adminData?.scheduleFormanData?.scheduleFormanDataOptions.map((item, innerIndex) => (
+                                                            <MenuItem value={item?.name} index={innerIndex}>{item?.name}</MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
                                             </div>
-
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Collection Address</p>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="Collection Address" InputLabelProps={{ shrink: true }} size="small" value={item?.collectionAddress} readOnly />
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Collection Access</p>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="Collection Access" InputLabelProps={{ shrink: true }} size="small" value={item?.collectionAccess} readOnly />
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Delivery Address</p>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="Delivery Address" InputLabelProps={{ shrink: true }} size="small" value={item?.deliveryAddress} readOnly />
                                             </div>
-                                            <div className="col-2 pe-0">
-                                                <p className='w-100 text-start mb-1'>Delivery Access</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-1 pe-0">
-                                        <p className='w-100 text-start mb-1'></p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-1 pe-0">
-                                    </div>
-                                    <div className="col-10">
-                                        <div className="row">
-                                            <div className="col-2 px-0">
-                                                <select className='form-select mb-3' aria-label='Select Forman' value={item?.foreman} onChange={(e) => handleFieldChange(index, 'foreman', e.target.value)}>
-                                                    <option disabled="" value="" className="d-none"></option>
-                                                    {(!adminData?.scheduleFormanData?.scheduleFormanDataOptions.find((Item) => Item.name === item.foreman) && item.foreman !=="" ) && (
-                                                        <option value={item.foreman}>{item.foreman}</option>
-                                                    )}
-                                                    {adminData?.scheduleFormanData?.scheduleFormanDataOptions.map((item, innerIndex)=>(
-                                                        <option style={{whiteSpace: "initial"}} value={item?.name} index={innerIndex}>{item?.name}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <input type="text" className="form-control mb-3" value={item?.collectionAddress} readOnly />
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <input type="text" className="form-control mb-3" value={item?.collectionAccess} readOnly />
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <input type="text" className="form-control mb-3" value={item?.deliveryAddress} readOnly />
-                                            </div>
-                                            <div className="col-2 pe-0">
-                                                <input type="text" className="form-control mb-3" value={item?.deliveryAccess} readOnly />
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="Delivery Access" InputLabelProps={{ shrink: true }} size="small" value={item?.deliveryAccess} readOnly />
                                             </div>
                                         </div>
                                     </div>
@@ -264,6 +227,5 @@ export default function Schedular({ adminData }) {
                 </div>
             </div>
         </div>
-        </>
     )
 }
