@@ -53,9 +53,12 @@ export default function Schedular({ adminData }) {
         console.log("adminData", scheduleData)
 
     try {
-
-
-      const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/addDate', { scheduleData: scheduleData });
+        const params = new URLSearchParams(window.location.search);
+        const dealId = params.get('deal_id');
+        if (!dealId) {
+            return;
+        }
+      const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/addDate', {dealId: dealId, scheduleData: scheduleData });
       //console.log(response.data.success);
       if (response) {
         Swal.fire({
