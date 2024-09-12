@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 
 export default function VehicleInputFieldset(props) {
-  const [newField, setNewField] = useState({ driver_name: "", driver_value: "0", miles: 0, days: 0, fuelcost: 0, cost: 0 });
+  const [newField, setNewField] = useState({ driver_name: "", driver_value: "0", miles: 0, days: 1, fuelcost: 0, cost: 0 });
   const vehiclesData = props.data && Array.isArray(props?.data.days[props.currentDataIndex]?.drivers) ? props?.data.days[props.currentDataIndex]?.drivers : [];
 
   const handleAddField = () => {
@@ -18,7 +18,7 @@ export default function VehicleInputFieldset(props) {
       return { ...prevData, days: updatedDays };
     });
   
-    setNewField({ driver_name: "", driver_value: "0", miles: 0, days: 0, fuelcost: 0, cost: 0 });
+    setNewField({ driver_name: "", driver_value: "0", miles: 0, days: 1, fuelcost: 0, cost: 0 });
   };
 
   // Function to calculate the sum of material costs for a given day

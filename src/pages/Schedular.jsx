@@ -8,6 +8,23 @@ import { TextField, MenuItem, InputLabel, FormControl, Select, OutlinedInput } f
 export default function Schedular({ adminData }) {
     const [scheduleData, setScheduleData] = useState([]);
     const [newField, setNewField] = useState({})
+    const [isDisabled, setIsDisabled] = useState(false)
+
+    const refreshData = async (dealId) => {
+        
+        
+            try {
+                console.log("params", dealId);
+                const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/hubspotData', { DealId: dealId });
+                console.log("farazrefreshhogaya",response.data.data);
+                if (response.data.success) {
+                    setScheduleData(response.data.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -19,7 +36,7 @@ export default function Schedular({ adminData }) {
             try {
                 console.log("params", dealId);
                 const response = await axios.post('https://apps.leadsmovinghomecompany.com/costingapp/hubspotData', { DealId: dealId });
-                console.log(response.data.success);
+                console.log("farazbaharmegaya",response.data.data);
                 if (response.data.success) {
                     setScheduleData(response.data.data);
                 }
@@ -41,12 +58,18 @@ export default function Schedular({ adminData }) {
         })
     }
     const handleAddField = () => {
+        // setScheduleData((prevData) => {
+        //     return [...prevData, newField]
+        // })
+
         setScheduleData((prevData) => {
-            return [...prevData, newField]
-        })
+            const { insertedEvent, ...newFieldWithoutInsertedEvent } = newField; // Destructure to exclude insertedEvent
+            return [...prevData, newFieldWithoutInsertedEvent];
+        });
     }
 
     const handleschedule = async () => {
+        setIsDisabled(true);
         console.log("adminData", scheduleData)
 
         try {
@@ -63,9 +86,11 @@ export default function Schedular({ adminData }) {
                     text: "Sucessfuly Schedule Your Data",
                     icon: "success",
                 });
+                
 
             }
-
+            await refreshData(dealId)
+            setIsDisabled(false);
 
         } catch (error) {
             console.log(error);
@@ -74,6 +99,7 @@ export default function Schedular({ adminData }) {
                 text: error,
                 icon: "error",
             });
+            setIsDisabled(false);
         }
     }
 
@@ -223,7 +249,13 @@ export default function Schedular({ adminData }) {
                 </div>
                 <div className="col-12 d-flex align-items-center justify-content-center gap-2">
                     <button className='btn btn-outline-custom px-4 py-1' onClick={handleAddField}><span className='px-2'>Add Day</span></button>
-                    <button className='btn btn-primary bg-custom-color px-4 py-1' onClick={handleschedule}><span className=' px-2'>Schedule</span></button>
+                    {/* <button className='btn btn-primary bg-custom-color px-4 py-1' disabled={isDisabled} onClick={handleschedule}><span className=' px-2'>Schedule</span></button>
+                 */}
+                    <button type="button" disabled={isDisabled} onClick={handleschedule} className="btn btn-secondary px-5 fw-bold">
+          
+          {isDisabled ?  <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : <span className=' px-2'>Schedule</span>}
+            
+            </button>
                 </div>
             </div>
         </div>
