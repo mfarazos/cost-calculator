@@ -49,7 +49,7 @@ export default function Schedular({ adminData }) {
     }, [])
 
     useEffect(() => {
-        setNewField({ ...scheduleData[0], date: "", task: "", vehicle: "", crew: [], foreman: "" });
+        setNewField({ ...scheduleData[0], date: "", task: "", postalCode: "", vehicle: "", crew: [], foreman: "" });
     }, [scheduleData])
 
     const handleRemoveField = (indexToRemove) => {
@@ -134,7 +134,7 @@ export default function Schedular({ adminData }) {
                                             <div className="col-6 col-lg-2 pe-0">
                                                 <TextField type='text' label="Client Name" InputLabelProps={{ shrink: true }} size="small" value={item?.clientName} readOnly />
                                             </div>
-                                            <div className="col-6 col-lg-2 pe-0">
+                                             <div className="col-6 col-lg-2 pe-0">
                                                 <FormControl className='w-100' size="small">
                                                     <InputLabel id="label-vehicle" shrink={true}>Task</InputLabel>
                                                     <Select
@@ -238,6 +238,10 @@ export default function Schedular({ adminData }) {
                                             <div className="col-6 col-lg-2 pe-0">
                                                 <TextField type='text' label="Delivery Access" InputLabelProps={{ shrink: true }} size="small" value={item?.deliveryAccess} readOnly />
                                             </div>
+                                            <div className="col-6 col-lg-2 pe-0">
+                                                <TextField type='text' label="PostalCode" InputLabelProps={{ shrink: true }} size="small"  value={item?.postalCode} onChange={(e) => handleFieldChange(index, 'postalCode', e.target.value)} />
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div className="col-1 pe-0">
